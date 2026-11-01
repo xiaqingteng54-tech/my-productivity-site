@@ -7,7 +7,7 @@ configuration:
   analytics:
     provider: plausible
   locale: en-US
-  baseUrl: quartz.jzhao.xyz
+  baseUrl: xiaqingteng54-tech.github.io/my-productivity-site
   ignorePatterns:
     - private
     - templates
