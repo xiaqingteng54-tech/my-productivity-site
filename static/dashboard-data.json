@@ -1,0 +1,427 @@
+{
+  "generatedAt": "2026-11-03 20:09",
+  "generatedAtLabel": "2026 年 11 月 3 日 · 周二",
+  "today": [],
+  "restGroups": [
+    {
+      "title": "执行计划",
+      "href": "../1-Projects/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E6%9B%B4%E6%96%B0-2026/%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92",
+      "folder": "1-Projects",
+      "tasks": [
+        {
+          "text": "俄罗斯",
+          "due": "2026-11-10",
+          "legacy": false,
+          "sourceTitle": "执行计划",
+          "sourceHref": "../1-Projects/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E6%9B%B4%E6%96%B0-2026/%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92",
+          "sourceFolder": "1-Projects",
+          "overdueDays": -7
+        },
+        {
+          "text": "白俄罗斯",
+          "due": "2026-11-17",
+          "legacy": false,
+          "sourceTitle": "执行计划",
+          "sourceHref": "../1-Projects/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E6%9B%B4%E6%96%B0-2026/%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92",
+          "sourceFolder": "1-Projects",
+          "overdueDays": -14
+        },
+        {
+          "text": "乌克兰俄占区",
+          "due": "2026-11-24",
+          "legacy": false,
+          "sourceTitle": "执行计划",
+          "sourceHref": "../1-Projects/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E6%9B%B4%E6%96%B0-2026/%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92",
+          "sourceFolder": "1-Projects",
+          "overdueDays": -21
+        },
+        {
+          "text": "古巴",
+          "due": "2026-12-01",
+          "legacy": false,
+          "sourceTitle": "执行计划",
+          "sourceHref": "../1-Projects/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E6%9B%B4%E6%96%B0-2026/%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92",
+          "sourceFolder": "1-Projects",
+          "overdueDays": -28
+        },
+        {
+          "text": "朝鲜",
+          "due": "2026-12-08",
+          "legacy": false,
+          "sourceTitle": "执行计划",
+          "sourceHref": "../1-Projects/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E6%9B%B4%E6%96%B0-2026/%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92",
+          "sourceFolder": "1-Projects",
+          "overdueDays": -35
+        },
+        {
+          "text": "叙利亚",
+          "due": "2026-12-15",
+          "legacy": false,
+          "sourceTitle": "执行计划",
+          "sourceHref": "../1-Projects/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E6%9B%B4%E6%96%B0-2026/%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92",
+          "sourceFolder": "1-Projects",
+          "overdueDays": -42
+        },
+        {
+          "text": "巴勒斯坦",
+          "due": "2026-12-22",
+          "legacy": false,
+          "sourceTitle": "执行计划",
+          "sourceHref": "../1-Projects/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E6%9B%B4%E6%96%B0-2026/%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92",
+          "sourceFolder": "1-Projects",
+          "overdueDays": -49
+        }
+      ]
+    },
+    {
+      "title": "logoscowork使用报告",
+      "href": "../1-Projects/%E7%94%9F%E6%88%90LogosCowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A%EF%BC%88%E7%AC%AC2%E9%98%B6%E6%AE%B5%EF%BC%89/logoscowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A",
+      "folder": "1-Projects",
+      "tasks": [
+        {
+          "text": "与外部AI大模型的优劣对比",
+          "due": "2026-11-09",
+          "legacy": false,
+          "sourceTitle": "logoscowork使用报告",
+          "sourceHref": "../1-Projects/%E7%94%9F%E6%88%90LogosCowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A%EF%BC%88%E7%AC%AC2%E9%98%B6%E6%AE%B5%EF%BC%89/logoscowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A",
+          "sourceFolder": "1-Projects",
+          "overdueDays": -6
+        },
+        {
+          "text": "评估LogosCowork知识库功能",
+          "due": "2026-11-10",
+          "legacy": false,
+          "sourceTitle": "logoscowork使用报告",
+          "sourceHref": "../1-Projects/%E7%94%9F%E6%88%90LogosCowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A%EF%BC%88%E7%AC%AC2%E9%98%B6%E6%AE%B5%EF%BC%89/logoscowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A",
+          "sourceFolder": "1-Projects",
+          "overdueDays": -7
+        },
+        {
+          "text": "探索独有知识库建立与贡献追踪",
+          "due": "2026-11-11",
+          "legacy": false,
+          "sourceTitle": "logoscowork使用报告",
+          "sourceHref": "../1-Projects/%E7%94%9F%E6%88%90LogosCowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A%EF%BC%88%E7%AC%AC2%E9%98%B6%E6%AE%B5%EF%BC%89/logoscowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A",
+          "sourceFolder": "1-Projects",
+          "overdueDays": -8
+        },
+        {
+          "text": "选择2个主题添加技能并演示实际效果",
+          "due": "2026-11-12",
+          "legacy": false,
+          "sourceTitle": "logoscowork使用报告",
+          "sourceHref": "../1-Projects/%E7%94%9F%E6%88%90LogosCowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A%EF%BC%88%E7%AC%AC2%E9%98%B6%E6%AE%B5%EF%BC%89/logoscowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A",
+          "sourceFolder": "1-Projects",
+          "overdueDays": -9
+        },
+        {
+          "text": "评估AI Agent功能",
+          "due": "2026-11-13",
+          "legacy": false,
+          "sourceTitle": "logoscowork使用报告",
+          "sourceHref": "../1-Projects/%E7%94%9F%E6%88%90LogosCowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A%EF%BC%88%E7%AC%AC2%E9%98%B6%E6%AE%B5%EF%BC%89/logoscowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A",
+          "sourceFolder": "1-Projects",
+          "overdueDays": -10
+        },
+        {
+          "text": "用AI生成work product \udd3a",
+          "due": "2026-11-15",
+          "legacy": false,
+          "sourceTitle": "logoscowork使用报告",
+          "sourceHref": "../1-Projects/%E7%94%9F%E6%88%90LogosCowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A%EF%BC%88%E7%AC%AC2%E9%98%B6%E6%AE%B5%EF%BC%89/logoscowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A",
+          "sourceFolder": "1-Projects",
+          "overdueDays": -12
+        }
+      ]
+    },
+    {
+      "title": "检索韩国关于进口原产国的管制要求",
+      "href": "../1-Projects/%E6%A3%80%E7%B4%A2%E9%9F%A9%E5%9B%BD%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%8F%A3%E5%8E%9F%E4%BA%A7%E5%9B%BD%E7%9A%84%E7%AE%A1%E5%88%B6%E8%A6%81%E6%B1%82/%E6%A3%80%E7%B4%A2%E9%9F%A9%E5%9B%BD%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%8F%A3%E5%8E%9F%E4%BA%A7%E5%9B%BD%E7%9A%84%E7%AE%A1%E5%88%B6%E8%A6%81%E6%B1%82",
+      "folder": "1-Projects",
+      "tasks": [
+        {
+          "text": "第一件事",
+          "due": "2026-11-10",
+          "legacy": false,
+          "sourceTitle": "检索韩国关于进口原产国的管制要求",
+          "sourceHref": "../1-Projects/%E6%A3%80%E7%B4%A2%E9%9F%A9%E5%9B%BD%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%8F%A3%E5%8E%9F%E4%BA%A7%E5%9B%BD%E7%9A%84%E7%AE%A1%E5%88%B6%E8%A6%81%E6%B1%82/%E6%A3%80%E7%B4%A2%E9%9F%A9%E5%9B%BD%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%8F%A3%E5%8E%9F%E4%BA%A7%E5%9B%BD%E7%9A%84%E7%AE%A1%E5%88%B6%E8%A6%81%E6%B1%82",
+          "sourceFolder": "1-Projects",
+          "overdueDays": -7
+        },
+        {
+          "text": "第二件事",
+          "due": "2026-11-20",
+          "legacy": false,
+          "sourceTitle": "检索韩国关于进口原产国的管制要求",
+          "sourceHref": "../1-Projects/%E6%A3%80%E7%B4%A2%E9%9F%A9%E5%9B%BD%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%8F%A3%E5%8E%9F%E4%BA%A7%E5%9B%BD%E7%9A%84%E7%AE%A1%E5%88%B6%E8%A6%81%E6%B1%82/%E6%A3%80%E7%B4%A2%E9%9F%A9%E5%9B%BD%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%8F%A3%E5%8E%9F%E4%BA%A7%E5%9B%BD%E7%9A%84%E7%AE%A1%E5%88%B6%E8%A6%81%E6%B1%82",
+          "sourceFolder": "1-Projects",
+          "overdueDays": -17
+        }
+      ]
+    },
+    {
+      "title": "英国本本二手收藏品AML评估",
+      "href": "../0-Inbox/%E8%8B%B1%E5%9B%BD%E6%9C%AC%E6%9C%AC%E4%BA%8C%E6%89%8B%E6%94%B6%E8%97%8F%E5%93%81AML%E8%AF%84%E4%BC%B0",
+      "folder": "0-Inbox",
+      "tasks": [
+        {
+          "text": "AMP资质要求（待治理侧结论形成后进行反洗钱评估）",
+          "due": null,
+          "legacy": false,
+          "sourceTitle": "英国本本二手收藏品AML评估",
+          "sourceHref": "../0-Inbox/%E8%8B%B1%E5%9B%BD%E6%9C%AC%E6%9C%AC%E4%BA%8C%E6%89%8B%E6%94%B6%E8%97%8F%E5%93%81AML%E8%AF%84%E4%BC%B0",
+          "sourceFolder": "0-Inbox",
+          "overdueDays": null
+        },
+        {
+          "text": "初步形成反洗钱合规管控建议",
+          "due": null,
+          "legacy": false,
+          "sourceTitle": "英国本本二手收藏品AML评估",
+          "sourceHref": "../0-Inbox/%E8%8B%B1%E5%9B%BD%E6%9C%AC%E6%9C%AC%E4%BA%8C%E6%89%8B%E6%94%B6%E8%97%8F%E5%93%81AML%E8%AF%84%E4%BC%B0",
+          "sourceFolder": "0-Inbox",
+          "overdueDays": null
+        }
+      ]
+    },
+    {
+      "title": "与老板沟通未来反洗钱工作职责",
+      "href": "../0-Inbox/%E4%B8%8E%E8%80%81%E6%9D%BF%E6%B2%9F%E9%80%9A%E6%9C%AA%E6%9D%A5%E5%8F%8D%E6%B4%97%E9%92%B1%E5%B7%A5%E4%BD%9C%E8%81%8C%E8%B4%A3",
+      "folder": "0-Inbox",
+      "tasks": [
+        {
+          "text": "反洗钱这块如果是我来独立跟文老师汇报，我打算做什么",
+          "due": "2026-11-06",
+          "legacy": false,
+          "sourceTitle": "与老板沟通未来反洗钱工作职责",
+          "sourceHref": "../0-Inbox/%E4%B8%8E%E8%80%81%E6%9D%BF%E6%B2%9F%E9%80%9A%E6%9C%AA%E6%9D%A5%E5%8F%8D%E6%B4%97%E9%92%B1%E5%B7%A5%E4%BD%9C%E8%81%8C%E8%B4%A3",
+          "sourceFolder": "0-Inbox",
+          "overdueDays": -3
+        }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "name": "制裁法规更新-2026",
+      "status": "进行中",
+      "href": "../1-Projects/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E6%9B%B4%E6%96%B0-2026/%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92",
+      "mtime": "今天",
+      "totalTasks": 7,
+      "doneTasks": 0,
+      "progress": 0,
+      "hasTasks": true
+    },
+    {
+      "name": "检索韩国关于进口原产国的管制要求",
+      "status": "进行中",
+      "href": "../1-Projects/%E6%A3%80%E7%B4%A2%E9%9F%A9%E5%9B%BD%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%8F%A3%E5%8E%9F%E4%BA%A7%E5%9B%BD%E7%9A%84%E7%AE%A1%E5%88%B6%E8%A6%81%E6%B1%82/%E6%A3%80%E7%B4%A2%E9%9F%A9%E5%9B%BD%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%8F%A3%E5%8E%9F%E4%BA%A7%E5%9B%BD%E7%9A%84%E7%AE%A1%E5%88%B6%E8%A6%81%E6%B1%82",
+      "mtime": "今天",
+      "totalTasks": 2,
+      "doneTasks": 0,
+      "progress": 0,
+      "hasTasks": true
+    },
+    {
+      "name": "生成LogosCowork使用报告（第2阶段）",
+      "status": "进行中",
+      "href": "../1-Projects/%E7%94%9F%E6%88%90LogosCowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A%EF%BC%88%E7%AC%AC2%E9%98%B6%E6%AE%B5%EF%BC%89/logoscowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A",
+      "mtime": "今天",
+      "totalTasks": 6,
+      "doneTasks": 0,
+      "progress": 0,
+      "hasTasks": true
+    }
+  ],
+  "inbox": [
+    {
+      "title": "随手记",
+      "rel": "0-Inbox/随手记.md",
+      "href": "../0-Inbox/%E9%9A%8F%E6%89%8B%E8%AE%B0",
+      "mtime": "今天",
+      "openTasks": 0,
+      "tags": []
+    },
+    {
+      "title": "与老板沟通未来反洗钱工作职责",
+      "rel": "0-Inbox/与老板沟通未来反洗钱工作职责.md",
+      "href": "../0-Inbox/%E4%B8%8E%E8%80%81%E6%9D%BF%E6%B2%9F%E9%80%9A%E6%9C%AA%E6%9D%A5%E5%8F%8D%E6%B4%97%E9%92%B1%E5%B7%A5%E4%BD%9C%E8%81%8C%E8%B4%A3",
+      "mtime": "今天",
+      "openTasks": 1,
+      "tags": []
+    },
+    {
+      "title": "英国本本二手收藏品AML评估",
+      "rel": "0-Inbox/英国本本二手收藏品AML评估.md",
+      "href": "../0-Inbox/%E8%8B%B1%E5%9B%BD%E6%9C%AC%E6%9C%AC%E4%BA%8C%E6%89%8B%E6%94%B6%E8%97%8F%E5%93%81AML%E8%AF%84%E4%BC%B0",
+      "mtime": "今天",
+      "openTasks": 2,
+      "tags": []
+    },
+    {
+      "title": "在logos新建知识管理专家的体验",
+      "rel": "0-Inbox/在logos新建知识管理专家的体验.md",
+      "href": "../0-Inbox/%E5%9C%A8logos%E6%96%B0%E5%BB%BA%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86%E4%B8%93%E5%AE%B6%E7%9A%84%E4%BD%93%E9%AA%8C",
+      "mtime": "今天",
+      "openTasks": 0,
+      "tags": []
+    },
+    {
+      "title": "报告-v2",
+      "rel": "0-Inbox/报告-v2.md",
+      "href": "../0-Inbox/%E6%8A%A5%E5%91%8A-v2",
+      "mtime": "昨天",
+      "openTasks": 0,
+      "tags": []
+    }
+  ],
+  "nav": [
+    {
+      "folder": "0-Inbox",
+      "items": [
+        {
+          "title": "随手记",
+          "rel": "0-Inbox/随手记.md",
+          "href": "../0-Inbox/%E9%9A%8F%E6%89%8B%E8%AE%B0",
+          "openTasks": 0,
+          "tags": [],
+          "mtime": "今天"
+        },
+        {
+          "title": "与老板沟通未来反洗钱工作职责",
+          "rel": "0-Inbox/与老板沟通未来反洗钱工作职责.md",
+          "href": "../0-Inbox/%E4%B8%8E%E8%80%81%E6%9D%BF%E6%B2%9F%E9%80%9A%E6%9C%AA%E6%9D%A5%E5%8F%8D%E6%B4%97%E9%92%B1%E5%B7%A5%E4%BD%9C%E8%81%8C%E8%B4%A3",
+          "openTasks": 1,
+          "tags": [],
+          "mtime": "今天"
+        },
+        {
+          "title": "英国本本二手收藏品AML评估",
+          "rel": "0-Inbox/英国本本二手收藏品AML评估.md",
+          "href": "../0-Inbox/%E8%8B%B1%E5%9B%BD%E6%9C%AC%E6%9C%AC%E4%BA%8C%E6%89%8B%E6%94%B6%E8%97%8F%E5%93%81AML%E8%AF%84%E4%BC%B0",
+          "openTasks": 2,
+          "tags": [],
+          "mtime": "今天"
+        },
+        {
+          "title": "在logos新建知识管理专家的体验",
+          "rel": "0-Inbox/在logos新建知识管理专家的体验.md",
+          "href": "../0-Inbox/%E5%9C%A8logos%E6%96%B0%E5%BB%BA%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86%E4%B8%93%E5%AE%B6%E7%9A%84%E4%BD%93%E9%AA%8C",
+          "openTasks": 0,
+          "tags": [],
+          "mtime": "今天"
+        },
+        {
+          "title": "报告-v2",
+          "rel": "0-Inbox/报告-v2.md",
+          "href": "../0-Inbox/%E6%8A%A5%E5%91%8A-v2",
+          "openTasks": 0,
+          "tags": [],
+          "mtime": "昨天"
+        }
+      ]
+    },
+    {
+      "folder": "1-Projects",
+      "items": [
+        {
+          "title": "执行计划",
+          "rel": "1-Projects/制裁法规更新-2026/执行计划.md",
+          "href": "../1-Projects/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E6%9B%B4%E6%96%B0-2026/%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92",
+          "openTasks": 7,
+          "tags": [],
+          "mtime": "今天"
+        },
+        {
+          "title": "logoscowork使用报告",
+          "rel": "1-Projects/生成LogosCowork使用报告（第2阶段）/logoscowork使用报告.md",
+          "href": "../1-Projects/%E7%94%9F%E6%88%90LogosCowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A%EF%BC%88%E7%AC%AC2%E9%98%B6%E6%AE%B5%EF%BC%89/logoscowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A",
+          "openTasks": 6,
+          "tags": [
+            "AI"
+          ],
+          "mtime": "今天"
+        },
+        {
+          "title": "检索韩国关于进口原产国的管制要求",
+          "rel": "1-Projects/检索韩国关于进口原产国的管制要求/检索韩国关于进口原产国的管制要求.md",
+          "href": "../1-Projects/%E6%A3%80%E7%B4%A2%E9%9F%A9%E5%9B%BD%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%8F%A3%E5%8E%9F%E4%BA%A7%E5%9B%BD%E7%9A%84%E7%AE%A1%E5%88%B6%E8%A6%81%E6%B1%82/%E6%A3%80%E7%B4%A2%E9%9F%A9%E5%9B%BD%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%8F%A3%E5%8E%9F%E4%BA%A7%E5%9B%BD%E7%9A%84%E7%AE%A1%E5%88%B6%E8%A6%81%E6%B1%82",
+          "openTasks": 2,
+          "tags": [],
+          "mtime": "今天"
+        },
+        {
+          "title": "制裁法规要求汇总（持续更新）",
+          "rel": "1-Projects/制裁法规更新-2026/制裁法规要求汇总（持续更新）.md",
+          "href": "../1-Projects/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E6%9B%B4%E6%96%B0-2026/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E8%A6%81%E6%B1%82%E6%B1%87%E6%80%BB%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89",
+          "openTasks": 0,
+          "tags": [],
+          "mtime": "昨天"
+        },
+        {
+          "title": "报告-v1",
+          "rel": "1-Projects/检索韩国关于进口原产国的管制要求/报告-v1.md",
+          "href": "../1-Projects/%E6%A3%80%E7%B4%A2%E9%9F%A9%E5%9B%BD%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%8F%A3%E5%8E%9F%E4%BA%A7%E5%9B%BD%E7%9A%84%E7%AE%A1%E5%88%B6%E8%A6%81%E6%B1%82/%E6%8A%A5%E5%91%8A-v1",
+          "openTasks": 0,
+          "tags": [],
+          "mtime": "昨天"
+        }
+      ]
+    },
+    {
+      "folder": "3-Resources",
+      "items": [
+        {
+          "title": "Legal English Vault",
+          "rel": "3-Resources/Legal English Vault.md",
+          "href": "../3-Resources/Legal%20English%20Vault",
+          "openTasks": 0,
+          "tags": [],
+          "mtime": "今天"
+        }
+      ]
+    }
+  ],
+  "tags": [
+    {
+      "name": "clippings",
+      "count": 2
+    },
+    {
+      "name": "AI",
+      "count": 1
+    },
+    {
+      "name": "复盘/月",
+      "count": 1
+    },
+    {
+      "name": "复盘/周",
+      "count": 1
+    },
+    {
+      "name": "system/home",
+      "count": 1
+    },
+    {
+      "name": "system/dashboard",
+      "count": 1
+    }
+  ],
+  "health": [
+    {
+      "file": "1-Projects/制裁法规更新-2026/制裁法规要求汇总（持续更新）.md",
+      "issue": "项目笔记缺 状态: 字段（进行中 / 暂停 / 已完成）"
+    },
+    {
+      "file": "1-Projects/检索韩国关于进口原产国的管制要求/报告-v1.md",
+      "issue": "项目笔记缺 状态: 字段（进行中 / 暂停 / 已完成）"
+    }
+  ],
+  "stats": {
+    "todayCount": 0,
+    "openTasks": 18,
+    "projectCount": 3,
+    "noteCount": 23
+  }
+}

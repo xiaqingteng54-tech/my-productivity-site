@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>我的工作台</title>
+<style>
+  :root{
+    --bg:#faf8f4; --card:#ffffff; --ink:#23201c; --sub:#7a7169;
+    --line:#e9e3d9; --accent:#c05621; --accent-soft:#fdf1e7;
+    --danger:#b4342a; --danger-soft:#fdeceb; --ok:#3f7d4e; --ok-soft:#eef6f0;
+    --radius:14px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#171614; --card:#211f1c; --ink:#eee8dd; --sub:#a49b8f;
+      --line:#332f2a; --accent:#e08a4f; --accent-soft:#2c231b;
+      --danger:#e07b70; --danger-soft:#2e1e1c; --ok:#7bb78b; --ok-soft:#1e2a21;
+    }
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--ink);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1080px;margin:0 auto;padding:40px 22px 80px}
+  header.top{margin-bottom:28px}
+  .h-row{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  h1{font-size:30px;margin:0;letter-spacing:-.02em;font-weight:700}
+  .date{color:var(--sub);font-size:14px;letter-spacing:.04em}
+  .chips{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  .chip{
+    background:var(--card);border:1px solid var(--line);border-radius:999px;
+    padding:6px 14px;font-size:13px;color:var(--sub);display:flex;gap:8px;align-items:center
+  }
+  .chip b{color:var(--ink);font-size:15px;font-weight:650}
+  .chip.warn{border-color:var(--danger);color:var(--danger);background:var(--danger-soft)}
+  .chip.warn b{color:var(--danger)}
+  section{margin:34px 0 0}
+  .sec-h{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .sec-h .num{
+    width:22px;height:22px;border-radius:7px;background:var(--accent-soft);color:var(--accent);
+    font-size:12px;font-weight:700;display:grid;place-items:center;flex:none
+  }
+  .sec-h h2{font-size:16px;margin:0;font-weight:650;letter-spacing:.01em}
+  .sec-h .count{color:var(--sub);font-size:13px;font-weight:400}
+  .sec-h .hint{margin-left:auto;color:var(--sub);font-size:12px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:6px 4px}
+  ul.list{list-style:none;margin:0;padding:0}
+  ul.list li{display:flex;gap:12px;align-items:flex-start;padding:11px 16px;border-bottom:1px solid var(--line)}
+  ul.list li:last-child{border-bottom:0}
+  .box{
+    width:15px;height:15px;border:1.6px solid var(--line);border-radius:4px;flex:none;margin-top:4px
+  }
+  .box.over{border-color:var(--danger);background:var(--danger-soft)}
+  .t-main{flex:1;min-width:0}
+  .t-text{display:block;word-break:break-word}
+  .t-meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:3px;font-size:12px;color:var(--sub)}
+  .badge{font-size:11px;padding:1px 7px;border-radius:999px;border:1px solid var(--line)}
+  .badge.due{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+  .badge.over{color:var(--danger);border-color:var(--danger);background:var(--danger-soft)}
+  .badge.src{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .empty{padding:20px 18px;color:var(--sub);font-size:14px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:14px}
+  .proj{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 16px 14px}
+  .proj .p-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+  .proj .p-name{font-weight:640;font-size:15px;line-height:1.4}
+  .status{font-size:11px;padding:2px 9px;border-radius:999px;border:1px solid var(--line);color:var(--sub);flex:none}
+  .status.run{color:var(--accent);border-color:var(--accent);background:var(--accent-soft)}
+  .status.done{color:var(--ok);border-color:var(--ok);background:var(--ok-soft)}
+  .status.pause{color:var(--sub)}
+  .bar{height:5px;border-radius:3px;background:var(--line);margin:14px 0 8px;overflow:hidden}
+  .bar span{display:block;height:100%;background:var(--accent);border-radius:3px}
+  .p-foot{display:flex;justify-content:space-between;font-size:12px;color:var(--sub)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media (max-width:760px){.two{grid-template-columns:1fr}.wrap{padding:26px 16px 60px}h1{font-size:24px}}
+  .search{
+    width:100%;padding:10px 14px;border-radius:10px;border:1px solid var(--line);
+    background:var(--card);color:var(--ink);font-size:14px;outline:none;margin-bottom:12px
+  }
+  .search:focus{border-color:var(--accent)}
+  .folder{margin-bottom:14px}
+  .folder>h3{margin:0 0 6px;font-size:13px;color:var(--sub);font-weight:600;letter-spacing:.03em}
+  .folder ul{list-style:none;margin:0;padding:0}
+  .folder li{padding:5px 0;font-size:14px;display:flex;gap:8px;align-items:baseline;border-bottom:1px dashed var(--line)}
+  .folder li:last-child{border-bottom:0}
+  .folder li a:hover{color:var(--accent)}
+  .folder .mini{color:var(--sub);font-size:11px;margin-left:auto;flex:none}
+  .tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
+  .tag{font-size:12px;padding:3px 10px;border-radius:999px;background:var(--accent-soft);color:var(--accent);border:0;cursor:pointer}
+  .tag.off{background:transparent;border:1px solid var(--line);color:var(--sub)}
+  details.group{border-bottom:1px solid var(--line)}
+  details.group:last-child{border-bottom:0}
+  details.group summary{
+    cursor:pointer;padding:12px 16px;font-size:14px;display:flex;gap:10px;align-items:center;list-style:none
+  }
+  details.group summary::-webkit-details-marker{display:none}
+  details.group summary::before{content:"▸";color:var(--sub);font-size:11px;transition:.15s}
+  details.group[open] summary::before{transform:rotate(90deg)}
+  details.group summary .g-name{font-weight:600}
+  details.group summary .g-count{margin-left:auto;color:var(--sub);font-size:12px}
+  details.group ul.list li{border-bottom:1px dashed var(--line)}
+  footer{margin-top:46px;padding-top:18px;border-top:1px solid var(--line);color:var(--sub);font-size:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+  .health{border:1px dashed var(--accent);border-radius:10px;padding:12px 16px;font-size:13px;color:var(--sub);background:var(--accent-soft)}
+  .health b{color:var(--ink)}
+  .health code{font-size:12px;background:var(--card);padding:1px 5px;border-radius:4px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="h-row">
+      <h1>我的工作台</h1>
+      <div class="date" id="today-label"></div>
+    </div>
+    <div class="chips" id="chips"></div>
+  </header>
+
+  <section id="sec-today">
+    <div class="sec-h"><span class="num">1</span><h2>今日待办</h2><span class="count" id="today-count"></span><span class="hint">今天到期 + 已逾期</span></div>
+    <div class="card" id="today-list"></div>
+  </section>
+
+  <section id="sec-proj">
+    <div class="sec-h"><span class="num">2</span><h2>项目看板</h2><span class="count" id="proj-count"></span><span class="hint">进度自动统计</span></div>
+    <div class="grid" id="proj-grid"></div>
+  </section>
+
+  <div class="two">
+    <section id="sec-inbox">
+      <div class="sec-h"><span class="num">3</span><h2>收件箱</h2><span class="count" id="inbox-count"></span></div>
+      <div class="card" id="inbox-list"></div>
+    </section>
+    <section id="sec-nav">
+      <div class="sec-h"><span class="num">4</span><h2>知识库</h2><span class="count" id="nav-count"></span></div>
+      <input class="search" id="q" placeholder="按标题 / 路径 / 标签筛选…" autocomplete="off" />
+      <div class="card" style="padding:14px 16px" id="nav-body"></div>
+    </section>
+  </div>
+
+  <section id="sec-all">
+    <div class="sec-h"><span class="num">5</span><h2>其余待办</h2><span class="count" id="all-count"></span><span class="hint">按笔记分组，点开查看</span></div>
+    <div class="card" id="all-list"></div>
+  </section>
+
+  <section id="sec-health" style="display:none">
+    <div class="sec-h"><span class="num">!</span><h2>书写待规范</h2></div>
+    <div class="health" id="health-body"></div>
+  </section>
+
+  <footer>
+    <span id="gen-at"></span>
+    <span>数据来自本地 Obsidian 库，发布时自动生成</span>
+  </footer>
+</div>
+
+<script id="payload" type="application/json">{"generatedAt":"2026-11-03 20:09","generatedAtLabel":"2026 年 11 月 3 日 · 周二","today":[],"restGroups":[{"title":"执行计划","href":"../1-Projects/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E6%9B%B4%E6%96%B0-2026/%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92","folder":"1-Projects","tasks":[{"text":"俄罗斯","due":"2026-11-10","legacy":false,"sourceTitle":"执行计划","sourceHref":"../1-Projects/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E6%9B%B4%E6%96%B0-2026/%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92","sourceFolder":"1-Projects","overdueDays":-7},{"text":"白俄罗斯","due":"2026-11-17","legacy":false,"sourceTitle":"执行计划","sourceHref":"../1-Projects/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E6%9B%B4%E6%96%B0-2026/%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92","sourceFolder":"1-Projects","overdueDays":-14},{"text":"乌克兰俄占区","due":"2026-11-24","legacy":false,"sourceTitle":"执行计划","sourceHref":"../1-Projects/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E6%9B%B4%E6%96%B0-2026/%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92","sourceFolder":"1-Projects","overdueDays":-21},{"text":"古巴","due":"2026-12-01","legacy":false,"sourceTitle":"执行计划","sourceHref":"../1-Projects/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E6%9B%B4%E6%96%B0-2026/%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92","sourceFolder":"1-Projects","overdueDays":-28},{"text":"朝鲜","due":"2026-12-08","legacy":false,"sourceTitle":"执行计划","sourceHref":"../1-Projects/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E6%9B%B4%E6%96%B0-2026/%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92","sourceFolder":"1-Projects","overdueDays":-35},{"text":"叙利亚","due":"2026-12-15","legacy":false,"sourceTitle":"执行计划","sourceHref":"../1-Projects/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E6%9B%B4%E6%96%B0-2026/%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92","sourceFolder":"1-Projects","overdueDays":-42},{"text":"巴勒斯坦","due":"2026-12-22","legacy":false,"sourceTitle":"执行计划","sourceHref":"../1-Projects/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E6%9B%B4%E6%96%B0-2026/%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92","sourceFolder":"1-Projects","overdueDays":-49}]},{"title":"logoscowork使用报告","href":"../1-Projects/%E7%94%9F%E6%88%90LogosCowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A%EF%BC%88%E7%AC%AC2%E9%98%B6%E6%AE%B5%EF%BC%89/logoscowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A","folder":"1-Projects","tasks":[{"text":"与外部AI大模型的优劣对比","due":"2026-11-09","legacy":false,"sourceTitle":"logoscowork使用报告","sourceHref":"../1-Projects/%E7%94%9F%E6%88%90LogosCowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A%EF%BC%88%E7%AC%AC2%E9%98%B6%E6%AE%B5%EF%BC%89/logoscowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A","sourceFolder":"1-Projects","overdueDays":-6},{"text":"评估LogosCowork知识库功能","due":"2026-11-10","legacy":false,"sourceTitle":"logoscowork使用报告","sourceHref":"../1-Projects/%E7%94%9F%E6%88%90LogosCowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A%EF%BC%88%E7%AC%AC2%E9%98%B6%E6%AE%B5%EF%BC%89/logoscowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A","sourceFolder":"1-Projects","overdueDays":-7},{"text":"探索独有知识库建立与贡献追踪","due":"2026-11-11","legacy":false,"sourceTitle":"logoscowork使用报告","sourceHref":"../1-Projects/%E7%94%9F%E6%88%90LogosCowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A%EF%BC%88%E7%AC%AC2%E9%98%B6%E6%AE%B5%EF%BC%89/logoscowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A","sourceFolder":"1-Projects","overdueDays":-8},{"text":"选择2个主题添加技能并演示实际效果","due":"2026-11-12","legacy":false,"sourceTitle":"logoscowork使用报告","sourceHref":"../1-Projects/%E7%94%9F%E6%88%90LogosCowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A%EF%BC%88%E7%AC%AC2%E9%98%B6%E6%AE%B5%EF%BC%89/logoscowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A","sourceFolder":"1-Projects","overdueDays":-9},{"text":"评估AI Agent功能","due":"2026-11-13","legacy":false,"sourceTitle":"logoscowork使用报告","sourceHref":"../1-Projects/%E7%94%9F%E6%88%90LogosCowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A%EF%BC%88%E7%AC%AC2%E9%98%B6%E6%AE%B5%EF%BC%89/logoscowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A","sourceFolder":"1-Projects","overdueDays":-10},{"text":"用AI生成work product \udd3a","due":"2026-11-15","legacy":false,"sourceTitle":"logoscowork使用报告","sourceHref":"../1-Projects/%E7%94%9F%E6%88%90LogosCowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A%EF%BC%88%E7%AC%AC2%E9%98%B6%E6%AE%B5%EF%BC%89/logoscowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A","sourceFolder":"1-Projects","overdueDays":-12}]},{"title":"检索韩国关于进口原产国的管制要求","href":"../1-Projects/%E6%A3%80%E7%B4%A2%E9%9F%A9%E5%9B%BD%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%8F%A3%E5%8E%9F%E4%BA%A7%E5%9B%BD%E7%9A%84%E7%AE%A1%E5%88%B6%E8%A6%81%E6%B1%82/%E6%A3%80%E7%B4%A2%E9%9F%A9%E5%9B%BD%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%8F%A3%E5%8E%9F%E4%BA%A7%E5%9B%BD%E7%9A%84%E7%AE%A1%E5%88%B6%E8%A6%81%E6%B1%82","folder":"1-Projects","tasks":[{"text":"第一件事","due":"2026-11-10","legacy":false,"sourceTitle":"检索韩国关于进口原产国的管制要求","sourceHref":"../1-Projects/%E6%A3%80%E7%B4%A2%E9%9F%A9%E5%9B%BD%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%8F%A3%E5%8E%9F%E4%BA%A7%E5%9B%BD%E7%9A%84%E7%AE%A1%E5%88%B6%E8%A6%81%E6%B1%82/%E6%A3%80%E7%B4%A2%E9%9F%A9%E5%9B%BD%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%8F%A3%E5%8E%9F%E4%BA%A7%E5%9B%BD%E7%9A%84%E7%AE%A1%E5%88%B6%E8%A6%81%E6%B1%82","sourceFolder":"1-Projects","overdueDays":-7},{"text":"第二件事","due":"2026-11-20","legacy":false,"sourceTitle":"检索韩国关于进口原产国的管制要求","sourceHref":"../1-Projects/%E6%A3%80%E7%B4%A2%E9%9F%A9%E5%9B%BD%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%8F%A3%E5%8E%9F%E4%BA%A7%E5%9B%BD%E7%9A%84%E7%AE%A1%E5%88%B6%E8%A6%81%E6%B1%82/%E6%A3%80%E7%B4%A2%E9%9F%A9%E5%9B%BD%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%8F%A3%E5%8E%9F%E4%BA%A7%E5%9B%BD%E7%9A%84%E7%AE%A1%E5%88%B6%E8%A6%81%E6%B1%82","sourceFolder":"1-Projects","overdueDays":-17}]},{"title":"英国本本二手收藏品AML评估","href":"../0-Inbox/%E8%8B%B1%E5%9B%BD%E6%9C%AC%E6%9C%AC%E4%BA%8C%E6%89%8B%E6%94%B6%E8%97%8F%E5%93%81AML%E8%AF%84%E4%BC%B0","folder":"0-Inbox","tasks":[{"text":"AMP资质要求（待治理侧结论形成后进行反洗钱评估）","due":null,"legacy":false,"sourceTitle":"英国本本二手收藏品AML评估","sourceHref":"../0-Inbox/%E8%8B%B1%E5%9B%BD%E6%9C%AC%E6%9C%AC%E4%BA%8C%E6%89%8B%E6%94%B6%E8%97%8F%E5%93%81AML%E8%AF%84%E4%BC%B0","sourceFolder":"0-Inbox","overdueDays":null},{"text":"初步形成反洗钱合规管控建议","due":null,"legacy":false,"sourceTitle":"英国本本二手收藏品AML评估","sourceHref":"../0-Inbox/%E8%8B%B1%E5%9B%BD%E6%9C%AC%E6%9C%AC%E4%BA%8C%E6%89%8B%E6%94%B6%E8%97%8F%E5%93%81AML%E8%AF%84%E4%BC%B0","sourceFolder":"0-Inbox","overdueDays":null}]},{"title":"与老板沟通未来反洗钱工作职责","href":"../0-Inbox/%E4%B8%8E%E8%80%81%E6%9D%BF%E6%B2%9F%E9%80%9A%E6%9C%AA%E6%9D%A5%E5%8F%8D%E6%B4%97%E9%92%B1%E5%B7%A5%E4%BD%9C%E8%81%8C%E8%B4%A3","folder":"0-Inbox","tasks":[{"text":"反洗钱这块如果是我来独立跟文老师汇报，我打算做什么","due":"2026-11-06","legacy":false,"sourceTitle":"与老板沟通未来反洗钱工作职责","sourceHref":"../0-Inbox/%E4%B8%8E%E8%80%81%E6%9D%BF%E6%B2%9F%E9%80%9A%E6%9C%AA%E6%9D%A5%E5%8F%8D%E6%B4%97%E9%92%B1%E5%B7%A5%E4%BD%9C%E8%81%8C%E8%B4%A3","sourceFolder":"0-Inbox","overdueDays":-3}]}],"projects":[{"name":"制裁法规更新-2026","status":"进行中","href":"../1-Projects/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E6%9B%B4%E6%96%B0-2026/%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92","mtime":"今天","totalTasks":7,"doneTasks":0,"progress":0,"hasTasks":true},{"name":"检索韩国关于进口原产国的管制要求","status":"进行中","href":"../1-Projects/%E6%A3%80%E7%B4%A2%E9%9F%A9%E5%9B%BD%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%8F%A3%E5%8E%9F%E4%BA%A7%E5%9B%BD%E7%9A%84%E7%AE%A1%E5%88%B6%E8%A6%81%E6%B1%82/%E6%A3%80%E7%B4%A2%E9%9F%A9%E5%9B%BD%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%8F%A3%E5%8E%9F%E4%BA%A7%E5%9B%BD%E7%9A%84%E7%AE%A1%E5%88%B6%E8%A6%81%E6%B1%82","mtime":"今天","totalTasks":2,"doneTasks":0,"progress":0,"hasTasks":true},{"name":"生成LogosCowork使用报告（第2阶段）","status":"进行中","href":"../1-Projects/%E7%94%9F%E6%88%90LogosCowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A%EF%BC%88%E7%AC%AC2%E9%98%B6%E6%AE%B5%EF%BC%89/logoscowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A","mtime":"今天","totalTasks":6,"doneTasks":0,"progress":0,"hasTasks":true}],"inbox":[{"title":"随手记","rel":"0-Inbox/随手记.md","href":"../0-Inbox/%E9%9A%8F%E6%89%8B%E8%AE%B0","mtime":"今天","openTasks":0,"tags":[]},{"title":"与老板沟通未来反洗钱工作职责","rel":"0-Inbox/与老板沟通未来反洗钱工作职责.md","href":"../0-Inbox/%E4%B8%8E%E8%80%81%E6%9D%BF%E6%B2%9F%E9%80%9A%E6%9C%AA%E6%9D%A5%E5%8F%8D%E6%B4%97%E9%92%B1%E5%B7%A5%E4%BD%9C%E8%81%8C%E8%B4%A3","mtime":"今天","openTasks":1,"tags":[]},{"title":"英国本本二手收藏品AML评估","rel":"0-Inbox/英国本本二手收藏品AML评估.md","href":"../0-Inbox/%E8%8B%B1%E5%9B%BD%E6%9C%AC%E6%9C%AC%E4%BA%8C%E6%89%8B%E6%94%B6%E8%97%8F%E5%93%81AML%E8%AF%84%E4%BC%B0","mtime":"今天","openTasks":2,"tags":[]},{"title":"在logos新建知识管理专家的体验","rel":"0-Inbox/在logos新建知识管理专家的体验.md","href":"../0-Inbox/%E5%9C%A8logos%E6%96%B0%E5%BB%BA%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86%E4%B8%93%E5%AE%B6%E7%9A%84%E4%BD%93%E9%AA%8C","mtime":"今天","openTasks":0,"tags":[]},{"title":"报告-v2","rel":"0-Inbox/报告-v2.md","href":"../0-Inbox/%E6%8A%A5%E5%91%8A-v2","mtime":"昨天","openTasks":0,"tags":[]}],"nav":[{"folder":"0-Inbox","items":[{"title":"随手记","rel":"0-Inbox/随手记.md","href":"../0-Inbox/%E9%9A%8F%E6%89%8B%E8%AE%B0","openTasks":0,"tags":[],"mtime":"今天"},{"title":"与老板沟通未来反洗钱工作职责","rel":"0-Inbox/与老板沟通未来反洗钱工作职责.md","href":"../0-Inbox/%E4%B8%8E%E8%80%81%E6%9D%BF%E6%B2%9F%E9%80%9A%E6%9C%AA%E6%9D%A5%E5%8F%8D%E6%B4%97%E9%92%B1%E5%B7%A5%E4%BD%9C%E8%81%8C%E8%B4%A3","openTasks":1,"tags":[],"mtime":"今天"},{"title":"英国本本二手收藏品AML评估","rel":"0-Inbox/英国本本二手收藏品AML评估.md","href":"../0-Inbox/%E8%8B%B1%E5%9B%BD%E6%9C%AC%E6%9C%AC%E4%BA%8C%E6%89%8B%E6%94%B6%E8%97%8F%E5%93%81AML%E8%AF%84%E4%BC%B0","openTasks":2,"tags":[],"mtime":"今天"},{"title":"在logos新建知识管理专家的体验","rel":"0-Inbox/在logos新建知识管理专家的体验.md","href":"../0-Inbox/%E5%9C%A8logos%E6%96%B0%E5%BB%BA%E7%9F%A5%E8%AF%86%E7%AE%A1%E7%90%86%E4%B8%93%E5%AE%B6%E7%9A%84%E4%BD%93%E9%AA%8C","openTasks":0,"tags":[],"mtime":"今天"},{"title":"报告-v2","rel":"0-Inbox/报告-v2.md","href":"../0-Inbox/%E6%8A%A5%E5%91%8A-v2","openTasks":0,"tags":[],"mtime":"昨天"}]},{"folder":"1-Projects","items":[{"title":"执行计划","rel":"1-Projects/制裁法规更新-2026/执行计划.md","href":"../1-Projects/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E6%9B%B4%E6%96%B0-2026/%E6%89%A7%E8%A1%8C%E8%AE%A1%E5%88%92","openTasks":7,"tags":[],"mtime":"今天"},{"title":"logoscowork使用报告","rel":"1-Projects/生成LogosCowork使用报告（第2阶段）/logoscowork使用报告.md","href":"../1-Projects/%E7%94%9F%E6%88%90LogosCowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A%EF%BC%88%E7%AC%AC2%E9%98%B6%E6%AE%B5%EF%BC%89/logoscowork%E4%BD%BF%E7%94%A8%E6%8A%A5%E5%91%8A","openTasks":6,"tags":["AI"],"mtime":"今天"},{"title":"检索韩国关于进口原产国的管制要求","rel":"1-Projects/检索韩国关于进口原产国的管制要求/检索韩国关于进口原产国的管制要求.md","href":"../1-Projects/%E6%A3%80%E7%B4%A2%E9%9F%A9%E5%9B%BD%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%8F%A3%E5%8E%9F%E4%BA%A7%E5%9B%BD%E7%9A%84%E7%AE%A1%E5%88%B6%E8%A6%81%E6%B1%82/%E6%A3%80%E7%B4%A2%E9%9F%A9%E5%9B%BD%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%8F%A3%E5%8E%9F%E4%BA%A7%E5%9B%BD%E7%9A%84%E7%AE%A1%E5%88%B6%E8%A6%81%E6%B1%82","openTasks":2,"tags":[],"mtime":"今天"},{"title":"制裁法规要求汇总（持续更新）","rel":"1-Projects/制裁法规更新-2026/制裁法规要求汇总（持续更新）.md","href":"../1-Projects/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E6%9B%B4%E6%96%B0-2026/%E5%88%B6%E8%A3%81%E6%B3%95%E8%A7%84%E8%A6%81%E6%B1%82%E6%B1%87%E6%80%BB%EF%BC%88%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%89","openTasks":0,"tags":[],"mtime":"昨天"},{"title":"报告-v1","rel":"1-Projects/检索韩国关于进口原产国的管制要求/报告-v1.md","href":"../1-Projects/%E6%A3%80%E7%B4%A2%E9%9F%A9%E5%9B%BD%E5%85%B3%E4%BA%8E%E8%BF%9B%E5%8F%A3%E5%8E%9F%E4%BA%A7%E5%9B%BD%E7%9A%84%E7%AE%A1%E5%88%B6%E8%A6%81%E6%B1%82/%E6%8A%A5%E5%91%8A-v1","openTasks":0,"tags":[],"mtime":"昨天"}]},{"folder":"3-Resources","items":[{"title":"Legal English Vault","rel":"3-Resources/Legal English Vault.md","href":"../3-Resources/Legal%20English%20Vault","openTasks":0,"tags":[],"mtime":"今天"}]}],"tags":[{"name":"clippings","count":2},{"name":"AI","count":1},{"name":"复盘/月","count":1},{"name":"复盘/周","count":1},{"name":"system/home","count":1},{"name":"system/dashboard","count":1}],"health":[{"file":"1-Projects/制裁法规更新-2026/制裁法规要求汇总（持续更新）.md","issue":"项目笔记缺 状态: 字段（进行中 / 暂停 / 已完成）"},{"file":"1-Projects/检索韩国关于进口原产国的管制要求/报告-v1.md","issue":"项目笔记缺 状态: 字段（进行中 / 暂停 / 已完成）"}],"stats":{"todayCount":0,"openTasks":18,"projectCount":3,"noteCount":23}}</script>
+<script>
+(function(){
+  var DATA = JSON.parse(document.getElementById('payload').textContent);
+  var esc = function(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); };
+  var WEEK = ['周日','周一','周二','周三','周四','周五','周六'];
+
+  document.getElementById('today-label').textContent = DATA.generatedAtLabel;
+
+  // ---- chips
+  var overdue = DATA.today.filter(function(t){ return t.overdueDays > 0; }).length;
+  var chips = [
+    {t:'今日到期', v:DATA.stats.todayCount},
+    {t:'已逾期', v:overdue, warn:overdue>0},
+    {t:'未完成待办', v:DATA.stats.openTasks},
+    {t:'项目', v:DATA.stats.projectCount},
+    {t:'笔记', v:DATA.stats.noteCount}
+  ];
+  document.getElementById('chips').innerHTML = chips.map(function(c){
+    return '<span class="chip'+(c.warn?' warn':'')+'">'+esc(c.t)+' <b>'+c.v+'</b></span>';
+  }).join('');
+
+  // ---- task item renderer
+  function taskLi(t){
+    var dueBadge = '';
+    if (t.due){
+      if (t.overdueDays > 0) dueBadge = '<span class="badge over">逾期 '+t.overdueDays+' 天 · '+esc(t.due)+'</span>';
+      else if (t.overdueDays === 0) dueBadge = '<span class="badge due">今天 · '+esc(t.due)+'</span>';
+      else dueBadge = '<span class="badge">'+esc(t.due)+'</span>';
+    }
+    if (t.legacy) dueBadge += ' <span class="badge">日期写法待统一</span>';
+    var src = t.sourceTitle ? '<span class="badge src">'+esc(t.sourceTitle)+'</span>' : '';
+    return '<li>'
+      + '<span class="box'+(t.overdueDays>0?' over':'')+'"></span>'
+      + '<span class="t-main"><span class="t-text">'+esc(t.text)+'</span>'
+      + '<span class="t-meta">'+dueBadge+src+'</span></span>'
+      + '</li>';
+  }
+
+  // ---- 1 today
+  var todayBox = document.getElementById('today-list');
+  document.getElementById('today-count').textContent = DATA.today.length ? DATA.today.length+' 项' : '';
+  todayBox.innerHTML = DATA.today.length
+    ? '<ul class="list">'+DATA.today.map(taskLi).join('')+'</ul>'
+    : '<div class="empty">今天没有到期任务。享受一下，或者去把收件箱清一清。</div>';
+
+  // ---- 2 projects
+  var pg = document.getElementById('proj-grid');
+  document.getElementById('proj-count').textContent = DATA.projects.length ? DATA.projects.length+' 个' : '';
+  if (!DATA.projects.length){
+    pg.innerHTML = '<div class="card"><div class="empty">1-Projects 里还没有带任务的笔记。</div></div>';
+  } else {
+    pg.innerHTML = DATA.projects.map(function(p){
+      var st = p.status || '未标注';
+      var cls = /进行|active|doing/i.test(st) ? 'run' : (/完成|done|closed/i.test(st) ? 'done' : (/暂停|pause|hold/i.test(st) ? 'pause' : ''));
+      var pct = p.progress == null ? null : Math.round(p.progress*100);
+      var bar = pct == null ? '' : '<div class="bar"><span style="width:'+pct+'%"></span></div>';
+      var foot = pct == null
+        ? '<div class="p-foot"><span>暂无任务</span><span>'+esc(p.mtime)+'</span></div>'
+        : '<div class="p-foot"><span>'+p.doneTasks+'/'+p.totalTasks+' · '+pct+'%</span><span>'+esc(p.mtime)+'</span></div>';
+      return '<div class="proj">'
+        + '<div class="p-top"><a class="p-name" href="'+esc(p.href)+'">'+esc(p.name)+'</a>'
+        + '<span class="status '+cls+'">'+esc(st)+'</span></div>'
+        + bar + foot + '</div>';
+    }).join('');
+  }
+
+  // ---- 3 inbox
+  var ib = document.getElementById('inbox-list');
+  document.getElementById('inbox-count').textContent = DATA.inbox.length ? DATA.inbox.length+' 条' : '';
+  ib.innerHTML = DATA.inbox.length
+    ? '<ul class="list">'+DATA.inbox.map(function(n){
+        return '<li><span class="t-main"><a class="t-text" href="'+esc(n.href)+'">'+esc(n.title)+'</a>'
+          + '<span class="t-meta"><span class="badge">'+esc(n.rel)+'</span>'
+          + (n.openTasks ? '<span class="badge due">'+n.openTasks+' 项待办</span>' : '')
+          + '<span class="badge">'+esc(n.mtime)+'</span></span></span></li>';
+      }).join('')+'</ul>'
+    : '<div class="empty">收件箱是空的。</div>';
+
+  // ---- 4 nav + search + tags
+  var navBody = document.getElementById('nav-body');
+  var activeTag = null;
+  function renderNav(){
+    var q = (document.getElementById('q').value || '').trim().toLowerCase();
+    var html = '';
+    var shown = 0;
+    DATA.nav.forEach(function(g){
+      var items = g.items.filter(function(n){
+        if (activeTag && (n.tags||[]).indexOf(activeTag) < 0) return false;
+        if (!q) return true;
+        return (n.title+' '+n.rel+' '+(n.tags||[]).join(' ')).toLowerCase().indexOf(q) >= 0;
+      });
+      if (!items.length) return;
+      shown += items.length;
+      html += '<div class="folder"><h3>'+esc(g.folder)+' · '+items.length+'</h3><ul>'
+        + items.map(function(n){
+            return '<li><a href="'+esc(n.href)+'">'+esc(n.title)+'</a>'
+              + (n.openTasks ? '<span class="mini">'+n.openTasks+' 待办</span>' : '')
+              + '</li>';
+          }).join('')
+        + '</ul></div>';
+    });
+    if (!shown) html = '<div class="empty">没有匹配的笔记。</div>';
+    var tags = DATA.tags.slice(0, 14).map(function(t){
+      return '<button class="tag'+(activeTag===t.name?'':' off')+'" data-tag="'+esc(t.name)+'">'
+        + esc(t.name)+' '+(t.count||'')+'</button>';
+    }).join('');
+    html += '<div class="tags" style="margin-top:14px">'+tags+'</div>';
+    navBody.innerHTML = html;
+    Array.prototype.forEach.call(navBody.querySelectorAll('.tag'), function(b){
+      b.onclick = function(){
+        var v = b.getAttribute('data-tag');
+        activeTag = (activeTag === v) ? null : v;
+        renderNav();
+      };
+    });
+  }
+  document.getElementById('q').addEventListener('input', renderNav);
+  document.getElementById('nav-count').textContent = DATA.stats.noteCount+' 篇';
+  renderNav();
+
+  // ---- 5 rest tasks grouped
+  var allBox = document.getElementById('all-list');
+  var groups = DATA.restGroups;
+  document.getElementById('all-count').textContent = groups.reduce(function(a,g){return a+g.tasks.length;},0)+' 项';
+  allBox.innerHTML = groups.length
+    ? groups.map(function(g,i){
+        return '<details class="group"'+(i===0?' open':'')+'><summary>'
+          + '<span class="g-name">'+esc(g.title)+'</span>'
+          + '<span class="g-count">'+g.tasks.length+' 项</span></summary>'
+          + '<ul class="list">'+g.tasks.map(taskLi).join('')+'</ul></details>';
+      }).join('')
+    : '<div class="empty">没有其他未完成待办。</div>';
+
+  // ---- health
+  if (DATA.health && DATA.health.length){
+    document.getElementById('sec-health').style.display = '';
+    document.getElementById('health-body').innerHTML = DATA.health.map(function(h){
+      return '<div>· <b>'+esc(h.file)+'</b> — '+esc(h.issue)+'</div>';
+    }).join('');
+  }
+
+  document.getElementById('gen-at').textContent = '生成时间 ' + DATA.generatedAt;
+})();
+</script>
+</body>
+</html>

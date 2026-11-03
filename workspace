@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>个人工作台 · Workspace</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;900&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#f5f1e8;
+    --paper-2:#efe9dc;
+    --card:#fbf8f2;
+    --ink:#1b1916;
+    --ink-2:#3f3a32;
+    --ink-3:#7a7264;
+    --line:#dcd3c2;
+    --line-soft:#e8e0d1;
+    --accent:#b4462a;
+    --accent-soft:#f0dcd2;
+    --green:#2f5d50;
+    --green-soft:#dbe6e0;
+    --gold:#9c7b34;
+    --shadow:0 1px 0 rgba(27,25,22,.04), 0 12px 32px -18px rgba(27,25,22,.35);
+  }
+  *{box-sizing:border-box;}
+  html{-webkit-font-smoothing:antialiased;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Noto Sans SC',system-ui,sans-serif;
+    line-height:1.75;
+    letter-spacing:.01em;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
+    opacity:.22;mix-blend-mode:multiply;
+  }
+  body::after{
+    content:'';position:fixed;top:-260px;right:-180px;width:640px;height:640px;z-index:0;pointer-events:none;
+    background:radial-gradient(circle at center, rgba(180,70,42,.16), rgba(180,70,42,0) 68%);
+    filter:blur(10px);
+  }
+  .serif{font-family:'Noto Serif SC',Georgia,serif;}
+  .mono{font-family:'JetBrains Mono',ui-monospace,monospace;}
+  .wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 22px 96px;}
+
+  @keyframes rise{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
+  .rise{opacity:0;animation:rise .72s cubic-bezier(.2,.7,.25,1) forwards;}
+  @keyframes drawIn{from{transform:scaleX(0);}to{transform:scaleX(1);}}
+  .rule-anim{transform-origin:left;animation:drawIn .9s .15s cubic-bezier(.2,.7,.25,1) both;}
+
+  .topbar{
+    position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;
+    padding:20px 22px;max-width:1180px;margin:0 auto;
+    font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3);
+  }
+  .dot{width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;margin-right:7px;
+    box-shadow:0 0 0 0 rgba(47,93,80,.5);animation:pulse 2.6s infinite;}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(47,93,80,.45);}70%{box-shadow:0 0 0 7px rgba(47,93,80,0);}100%{box-shadow:0 0 0 0 rgba(47,93,80,0);}}
+
+  .hero{display:grid;grid-template-columns:1.45fr .85fr;gap:38px;align-items:end;padding:26px 0 30px;}
+  .kicker{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+  h1.title{font-family:'Noto Serif SC',serif;font-weight:900;font-size:clamp(38px,6.2vw,68px);line-height:1.06;margin:0;letter-spacing:-.01em;}
+  h1.title em{font-style:normal;color:var(--accent);}
+  .lede{margin:18px 0 0;max-width:46ch;color:var(--ink-2);font-size:14.5px;font-weight:300;line-height:1.95;}
+
+  .status-card{
+    background:var(--card);border:1px solid var(--line);padding:22px 22px 18px;box-shadow:var(--shadow);
+    position:relative;
+  }
+  .status-card::before{content:'';position:absolute;left:0;top:0;width:3px;height:100%;background:var(--accent);}
+  .status-num{font-family:'Noto Serif SC',serif;font-size:54px;line-height:1;font-weight:900;color:var(--accent);}
+  .status-card .cap{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);margin-bottom:10px;}
+  .status-row{display:flex;justify-content:space-between;font-size:12.5px;color:var(--ink-2);padding:7px 0;border-top:1px dashed var(--line);}
+
+  .hr{height:1px;background:var(--line);margin:0;}
+  section{padding:52px 0 8px;}
+  .sec-head{display:flex;align-items:baseline;gap:16px;margin-bottom:26px;}
+  .sec-num{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:.1em;padding-top:6px;}
+  .sec-head h2{font-family:'Noto Serif SC',serif;font-weight:600;font-size:25px;margin:0;letter-spacing:.01em;}
+  .sec-head .sub{font-size:12px;color:var(--ink-3);letter-spacing:.04em;margin-left:auto;}
+
+  .metrics{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);background:var(--card);}
+  .metric{padding:20px 22px;border-right:1px solid var(--line-soft);}
+  .metric:last-child{border-right:none;}
+  .metric .lbl{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3);}
+  .metric .val{font-family:'Noto Serif SC',serif;font-size:32px;font-weight:900;line-height:1.2;margin-top:6px;}
+  .metric .val small{font-size:12px;font-family:'JetBrains Mono',monospace;font-weight:400;color:var(--ink-3);margin-left:4px;}
+
+  .focus{display:grid;grid-template-columns:1.6fr 1fr;gap:18px;}
+  .focus-main{
+    background:linear-gradient(180deg,#211f1b,#1b1916);color:#f2ece0;padding:30px 32px;position:relative;overflow:hidden;
+  }
+  .focus-main::after{
+    content:'';position:absolute;right:-70px;bottom:-90px;width:280px;height:280px;border-radius:50%;
+    border:1px solid rgba(242,236,224,.16);
+  }
+  .focus-main .tag{display:inline-block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#e0a48f;border:1px solid rgba(224,164,143,.4);padding:3px 9px;}
+  .focus-main h3{font-family:'Noto Serif SC',serif;font-size:26px;font-weight:600;margin:16px 0 10px;line-height:1.5;}
+  .focus-main p{color:#b8b0a1;font-size:13px;font-weight:300;margin:0;max-width:52ch;line-height:1.9;}
+  .focus-meta{display:flex;gap:26px;margin-top:24px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:#8e8677;flex-wrap:wrap;}
+  .focus-meta b{color:#f2ece0;font-weight:500;}
+
+  .focus-side{display:flex;flex-direction:column;gap:14px;}
+  .mini{background:var(--card);border:1px solid var(--line);padding:16px 18px;flex:1;display:flex;flex-direction:column;justify-content:center;}
+  .mini .k{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-3);}
+  .mini .v{font-size:14px;font-weight:500;margin-top:4px;}
+  .mini .v span{font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:20px;margin-right:6px;}
+
+  .board{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;align-items:start;}
+  .col{background:var(--card);border:1px solid var(--line);}
+  .col-head{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line);}
+  .col-head h4{margin:0;font-size:12px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;}
+  .col-head .cnt{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-3);}
+  .col-body{padding:8px;}
+
+  .task{
+    display:flex;gap:12px;padding:13px 12px;border-bottom:1px dashed var(--line-soft);
+    transition:background .22s ease;position:relative;
+  }
+  .task:last-child{border-bottom:none;}
+  .task:hover{background:var(--paper-2);}
+  .task .ck{
+    flex:0 0 17px;width:17px;height:17px;margin-top:5px;border:1.5px solid var(--ink-3);cursor:pointer;
+    display:flex;align-items:center;justify-content:center;transition:all .2s ease;background:transparent;
+  }
+  .task .ck svg{width:11px;height:11px;opacity:0;transform:scale(.5);transition:all .2s ease;stroke:var(--card);stroke-width:3;}
+  .task .ck:hover{border-color:var(--accent);background:var(--accent-soft);}
+  .task.done .ck{background:var(--green);border-color:var(--green);}
+  .task.done .ck svg{opacity:1;transform:none;}
+  .task.done .t-title{text-decoration:line-through;color:var(--ink-3);}
+  .t-title{font-size:13.5px;line-height:1.7;font-weight:500;}
+  .t-sub{font-size:11.5px;color:var(--ink-3);margin-top:5px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;}
+  .pill{font-size:10.5px;padding:1.5px 7px;border:1px solid var(--line);color:var(--ink-2);letter-spacing:.04em;background:var(--paper);}
+  .pill.hot{color:var(--accent);border-color:#e3bfb2;background:var(--accent-soft);}
+  .pill.wait{color:var(--gold);border-color:#e0d2ac;background:#f4eeda;}
+  .pill.ok{color:var(--green);border-color:#b9cdc4;background:var(--green-soft);}
+
+  .proj{background:var(--card);border:1px solid var(--line);padding:30px 32px;}
+  .proj-top{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:flex-start;}
+  .proj h3{font-family:'Noto Serif SC',serif;font-size:21px;font-weight:600;margin:0;}
+  .proj .path{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-3);margin-top:6px;}
+  .pct{font-family:'Noto Serif SC',serif;font-size:40px;font-weight:900;color:var(--accent);line-height:1;}
+  .pct small{font-size:13px;font-weight:400;color:var(--ink-3);}
+
+  .track{display:grid;grid-template-columns:repeat(5,1fr);margin-top:34px;position:relative;}
+  .track::before{content:'';position:absolute;left:6%;right:6%;top:7px;height:1px;background:var(--line);}
+  .node{position:relative;text-align:center;}
+  .node .pt{
+    width:15px;height:15px;border-radius:50%;margin:0 auto;background:var(--paper);
+    border:1.5px solid var(--ink-3);position:relative;z-index:2;transition:all .3s ease;
+  }
+  .node.done .pt{background:var(--accent);border-color:var(--accent);}
+  .node.now .pt{background:var(--card);border-color:var(--accent);box-shadow:0 0 0 5px rgba(180,70,42,.13);}
+  .node .sw{font-size:12px;margin-top:12px;font-weight:500;}
+  .node .dt{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--ink-3);margin-top:3px;}
+  .node.pending .sw{color:var(--ink-3);}
+
+  .bar{height:3px;background:var(--line-soft);margin-top:30px;position:relative;overflow:hidden;}
+  .bar i{position:absolute;left:0;top:0;height:100%;background:var(--accent);width:0;transition:width 1.4s cubic-bezier(.2,.7,.25,1);}
+
+  .verify{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);background:var(--card);}
+  .vitem{padding:15px 20px;border-bottom:1px solid var(--line-soft);display:flex;gap:13px;font-size:13px;line-height:1.7;}
+  .vitem:nth-child(odd){border-right:1px solid var(--line-soft);}
+  .vitem .n{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold);flex:0 0 20px;padding-top:2px;}
+
+  .kmap{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;}
+  .kcell{
+    background:var(--card);border:1px solid var(--line);padding:14px 12px;text-align:center;
+    transition:transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .kcell:hover{transform:translateY(-4px);box-shadow:0 14px 26px -20px rgba(27,25,22,.6);border-color:var(--accent);}
+  .kcell .cn{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-3);letter-spacing:.06em;}
+  .kcell .cv{font-family:'Noto Serif SC',serif;font-size:26px;font-weight:900;line-height:1.3;margin-top:2px;}
+  .kcell .cl{font-size:11px;color:var(--ink-3);margin-top:4px;}
+  .kcell.empty .cv{color:#d6ccb8;}
+
+  .advice{margin-top:0;border-left:2px solid var(--accent);padding:4px 0 4px 18px;}
+  .advice li{font-size:13px;color:var(--ink-2);line-height:1.9;margin-bottom:6px;list-style:none;position:relative;padding-left:15px;}
+  .advice li::before{content:'·';position:absolute;left:0;color:var(--accent);font-weight:700;}
+
+  .tl{position:relative;padding-left:88px;}
+  .tl::before{content:'';position:absolute;left:66px;top:6px;bottom:6px;width:1px;background:var(--line);}
+  .tli{position:relative;padding:0 0 26px;}
+  .tli .d{position:absolute;left:-88px;top:1px;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--ink-3);width:56px;text-align:right;}
+  .tli::after{content:'';position:absolute;left:-23px;top:8px;width:7px;height:7px;border-radius:50%;background:var(--paper);border:1.5px solid var(--ink-3);}
+  .tli.hot::after{background:var(--accent);border-color:var(--accent);}
+  .tli .h{font-size:14px;font-weight:600;}
+  .tli .p{font-size:12.5px;color:var(--ink-3);margin-top:3px;line-height:1.8;}
+
+  footer{margin-top:64px;padding-top:22px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:11.5px;color:var(--ink-3);}
+
+  @media(max-width:960px){
+    .hero{grid-template-columns:1fr;gap:26px;align-items:start;}
+    .metrics{grid-template-columns:1fr 1fr;}
+    .metric:nth-child(2){border-right:none;}
+    .metric:nth-child(3),.metric:nth-child(4){border-top:1px solid var(--line-soft);}
+    .focus{grid-template-columns:1fr;}
+    .board{grid-template-columns:1fr;}
+    .verify{grid-template-columns:1fr;}
+    .vitem:nth-child(odd){border-right:none;}
+    .kmap{grid-template-columns:repeat(3,1fr);}
+    .node .sw{font-size:10.5px;}
+    section{padding:38px 0 6px;}
+  }
+  @media(max-width:560px){
+    .wrap{padding:0 16px 70px;}
+    .kmap{grid-template-columns:repeat(2,1fr);}
+    .tl{padding-left:64px;}
+    .tl::before{left:44px;}
+    .tli .d{left:-64px;width:36px;font-size:10.5px;}
+    .proj{padding:22px 20px;}
+    .focus-main{padding:24px 22px;}
+    .status-num{font-size:44px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar mono">
+  <div><span class="dot"></span>LOCAL-FIRST · OBSIDIAN VAULT SYNCED</div>
+  <div>2026-W45 · 周一</div>
+</div>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="rise" style="animation-delay:.05s">
+      <div class="kicker mono">Workspace / 个人工作台</div>
+      <h1 class="title serif">把项目、待办与<br>知识库放在<em>同一张桌面</em></h1>
+      <p class="lede">一个项目在收尾核验，一条合规建议今日到期，一条法规更新下周落地。这张桌面只做三件事：让你知道现在在哪、下一步做什么、材料放在哪。</p>
+    </div>
+    <div class="status-card rise" style="animation-delay:.16s">
+      <div class="cap mono">今日焦点 · 11-02</div>
+      <div class="status-num serif">1</div>
+      <div style="font-size:13px;color:var(--ink-2);margin:2px 0 14px;">项任务今日到期</div>
+      <div class="status-row"><span>进行中项目</span><b class="mono" style="font-weight:500">1</b></div>
+      <div class="status-row"><span>待核事项</span><b class="mono" style="font-weight:500">5</b></div>
+      <div class="status-row"><span>收件箱待整理</span><b class="mono" style="font-weight:500">2</b></div>
+    </div>
+  </div>
+
+  <div class="hr rule-anim"></div>
+
+  <section class="rise" style="animation-delay:.24s;padding-top:34px;">
+    <div class="metrics">
+      <div class="metric">
+        <div class="lbl">笔记总数</div>
+        <div class="val">8<small>篇</small></div>
+      </div>
+      <div class="metric">
+        <div class="lbl">未完成任务</div>
+        <div class="val" id="mOpen">4<small>项</small></div>
+      </div>
+      <div class="metric">
+        <div class="lbl">已完成</div>
+        <div class="val" id="mDone">5<small>项</small></div>
+      </div>
+      <div class="metric">
+        <div class="lbl">任务完成率</div>
+        <div class="val" id="mRate">55.6<small>%</small></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rise" style="animation-delay:.3s">
+    <div class="sec-head">
+      <span class="sec-num">01</span>
+      <h2>今日焦点</h2>
+      <span class="sub mono">DUE TODAY · 2026-11-02</span>
+    </div>
+    <div class="focus">
+      <div class="focus-main">
+        <span class="tag mono">HIGH PRIORITY</span>
+        <h3>初步形成反洗钱合规管控建议</h3>
+        <p>英国二手收藏品业务的 AML 评估需要一次落地的结论输出：管控建议要能对上监管预期，也要能对上业务实际动作。这条是今天唯一带硬期限的事，其余都可以往后挪。</p>
+        <div class="focus-meta">
+          <span>截止 <b>11-02</b></span>
+          <span>来源 <b>0-Inbox / AML 评估</b></span>
+          <span>状态 <b>进行中</b></span>
+        </div>
+      </div>
+      <div class="focus-side">
+        <div class="mini">
+          <div class="k mono">Next Up</div>
+          <div class="v"><span>7</span>天后 · 制裁法规更新</div>
+        </div>
+        <div class="mini">
+          <div class="k mono">Blocked</div>
+          <div class="v">AMP 资质要求<br><span style="font-size:11.5px;color:var(--ink-3);font-family:'Noto Sans SC',sans-serif">等治理侧结论，暂时不推进</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rise" style="animation-delay:.36s">
+    <div class="sec-head">
+      <span class="sec-num">02</span>
+      <h2>任务看板</h2>
+      <span class="sub mono">勾选即完成 · 自动保存</span>
+    </div>
+    <div class="board">
+      <div class="col">
+        <div class="col-head"><h4>待办</h4><span class="cnt" id="cTodo">3</span></div>
+        <div class="col-body" id="listTodo"></div>
+      </div>
+      <div class="col">
+        <div class="col-head"><h4>受阻 / 等待</h4><span class="cnt" id="cBlock">1</span></div>
+        <div class="col-body" id="listBlock"></div>
+      </div>
+      <div class="col">
+        <div class="col-head"><h4>已完成</h4><span class="cnt" id="cDone">5</span></div>
+        <div class="col-body" id="listDone"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rise" style="animation-delay:.42s">
+    <div class="sec-head">
+      <span class="sec-num">03</span>
+      <h2>项目进度</h2>
+      <span class="sub mono">1-PROJECTS</span>
+    </div>
+    <div class="proj">
+      <div class="proj-top">
+        <div>
+          <h3>韩国进出口、制裁法规检索</h3>
+          <div class="path">1-Projects / 韩国进出口、制裁法规检索 · v1 1.0MB → v2 30.4KB</div>
+          <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;">
+            <span class="pill hot">核心项目</span>
+            <span class="pill">法规检索</span>
+            <span class="pill">制裁 · 出口管制</span>
+            <span class="pill wait">5 项待核</span>
+          </div>
+        </div>
+        <div style="text-align:right">
+          <div class="pct" id="projPct">60<small>%</small></div>
+          <div style="font-size:11px;color:var(--ink-3);margin-top:4px;" class="mono">3 / 5 里程碑</div>
+        </div>
+      </div>
+
+      <div class="track">
+        <div class="node done"><div class="pt"></div><div class="sw">v1 初稿</div><div class="dt">11-02</div></div>
+        <div class="node done"><div class="pt"></div><div class="sw">复核纠错</div><div class="dt">11-02</div></div>
+        <div class="node done"><div class="pt"></div><div class="sw">v2 修订</div><div class="dt">11-02</div></div>
+        <div class="node now"><div class="pt"></div><div class="sw">待核收口</div><div class="dt">进行中</div></div>
+        <div class="node pending"><div class="pt"></div><div class="sw">定稿归档</div><div class="dt">待启动</div></div>
+      </div>
+      <div class="bar"><i id="projBar"></i></div>
+
+      <div class="proj-facts" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:26px;">
+        <div>
+          <div class="mono" style="font-size:10.5px;letter-spacing:.14em;color:var(--ink-3);">本版新增</div>
+          <div style="font-size:13.5px;margin-top:4px;">8 类法律抓手 · 13 条遗漏项</div>
+        </div>
+        <div>
+          <div class="mono" style="font-size:10.5px;letter-spacing:.14em;color:var(--ink-3);">已修正</div>
+          <div style="font-size:13.5px;margin-top:4px;">3 处实质错误 · 1 处残缺清单</div>
+        </div>
+        <div>
+          <div class="mono" style="font-size:10.5px;letter-spacing:.14em;color:var(--ink-3);">负面确认</div>
+          <div style="font-size:13.5px;margin-top:4px;">2 项韩国并未实施的管制</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="rise" style="animation-delay:.48s">
+    <div class="sec-head">
+      <span class="sec-num">04</span>
+      <h2>待核清单</h2>
+      <span class="sub mono">5 项 · 定稿前必须收口</span>
+    </div>
+    <div class="verify">
+      <div class="vitem"><span class="n">01</span><span>《战略物项进出口公告》2026 年修订的<b>公告文号</b>（施行日 2026-09-01 已核实，文号未核）</span></div>
+      <div class="vitem"><span class="n">02</span><span>《对外贸法》「战略物项该否判定」的<b>具体条号</b></span></div>
+      <div class="vitem"><span class="n">03</span><span>S/RES/2270 中「过境货物查验」义务的<b>段号</b></span></div>
+      <div class="vitem"><span class="n">04</span><span>韩国关税厅战略物项<b>通关公告的名称与编号</b></span></div>
+      <div class="vitem" style="border-bottom:none;"><span class="n">05</span><span>v1 所引《南北交流合作法》链接<b>未打开验证</b>；《产业技术泄漏防止法》第 11 条未验证</span></div>
+      <div class="vitem" style="border-bottom:none;background:var(--paper-2)"><span class="n">→</span><span style="font-size:12.5px;color:var(--ink-3)">收口方式：逐条回官方源核对，核不到的就写「未核验」，不猜文号。</span></div>
+    </div>
+  </section>
+
+  <section class="rise" style="animation-delay:.54s">
+    <div class="sec-head">
+      <span class="sec-num">05</span>
+      <h2>知识库地图</h2>
+      <span class="sub mono">PARA · 8 NOTES</span>
+    </div>
+    <div class="kmap">
+      <div class="kcell"><div class="cn">0</div><div class="cv">4</div><div class="cl">Inbox</div></div>
+      <div class="kcell"><div class="cn">1</div><div class="cv">1</div><div class="cl">Projects</div></div>
+      <div class="kcell empty"><div class="cn">2</div><div class="cv">0</div><div class="cl">Areas</div></div>
+      <div class="kcell empty"><div class="cn">3</div><div class="cv">0</div><div class="cl">Resources</div></div>
+      <div class="kcell empty"><div class="cn">4</div><div class="cv">0</div><div class="cl">Archives</div></div>
+      <div class="kcell"><div class="cn">5</div><div class="cv">1</div><div class="cl">System</div></div>
+    </div>
+
+    <div class="kb-two" style="display:grid;grid-template-columns:1.15fr .85fr;gap:26px;margin-top:26px;">
+      <div>
+        <div class="mono" style="font-size:10.5px;letter-spacing:.16em;color:var(--accent);margin-bottom:12px;">整理建议</div>
+        <ul class="advice">
+          <li><b>报告-v2.md 归位</b>：它现在还躺在 0-Inbox，建议移到 <span class="mono" style="font-size:11.5px">1-Projects/韩国进出口、制裁法规检索/</span>，与 v1 同目录，项目才是一个完整包。</li>
+          <li><b>清掉 2 条空任务行</b>：待办文件里有两行只有 <span class="mono" style="font-size:11.5px">- [ ]</span>，会让 Dataview 的待办列表出现空条目。</li>
+          <li><b>补两个领域（Areas）</b>：2-Areas 还是空的。按你现在的工作，至少该有「反洗钱合规」「制裁与出口管制」两个长期领域，报告将来才有地方沉淀。</li>
+        </ul>
+      </div>
+      <div style="background:var(--card);border:1px solid var(--line);padding:20px 22px;">
+        <div class="mono" style="font-size:10.5px;letter-spacing:.16em;color:var(--ink-3);margin-bottom:10px;">为什么待办曾经是空的</div>
+        <p style="font-size:12.5px;color:var(--ink-2);margin:0;line-height:1.95;">首页「今日到期」依赖 <span class="mono" style="font-size:11.5px">due</span> 字段。写 <span class="mono" style="font-size:11.5px">📅 2026-11-09</span> 或 <span class="mono" style="font-size:11.5px">[due:: 2026-11-02]</span> 才会被识别；写成「截止 11月9日」会被判为无日期。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="rise" style="animation-delay:.6s">
+    <div class="sec-head">
+      <span class="sec-num">06</span>
+      <h2>本周安排</h2>
+      <span class="sub mono">11-02 → 11-09</span>
+    </div>
+    <div class="tl">
+      <div class="tli hot">
+        <div class="d">11-02 周一</div>
+        <div class="h">反洗钱合规管控建议 · 出初版</div>
+        <div class="p">今天唯一硬期限。先出结论骨架（风险点 → 管控动作 → 责任方），细节留到明天补。</div>
+      </div>
+      <div class="tli">
+        <div class="d">11-03 周二</div>
+        <div class="h">报告 v2 待核项 · 收口 1–3</div>
+        <div class="p">公告文号、该否判定条号、2270 过境查验段号，都是回官方源就能定的事。</div>
+      </div>
+      <div class="tli">
+        <div class="d">11-04 周三</div>
+        <div class="h">报告 v2 待核项 · 收口 4–5 + 归位</div>
+        <div class="p">关税厅通关公告、两条旧链接；顺手把 v2 移进 1-Projects，0-Inbox 清零。</div>
+      </div>
+      <div class="tli">
+        <div class="d">11-06 周五</div>
+        <div class="h">周复盘 · 用模板走一遍</div>
+        <div class="p">5-System 里的周复盘模板已经写好，本周 8 篇笔记、5 项完成，正好试跑一次。</div>
+      </div>
+      <div class="tli hot">
+        <div class="d">11-09 周一</div>
+        <div class="h">制裁法规更新 · 定期巡检</div>
+        <div class="p">制裁与出口管制 3–6 个月就变一轮，这条是节奏性的，不看就会漏清单扩容。</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="mono">OBSIDIAN + PARA + GTD · QUARTZ 静态发布</div>
+    <div>数据来自本地 Vault 快照 · 2026-11-02 12:51</div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var KEY = 'ws-tasks-2026w45';
+
+  var TASKS = [
+    {id:'t1', title:'初步形成反洗钱合规管控建议', proj:'英国二手收藏品 AML', due:'2026-11-02', dueLabel:'今天到期', hot:true, state:'todo'},
+    {id:'t2', title:'制裁法规更新', proj:'韩国制裁法规检索', due:'2026-11-09', dueLabel:'7 天后', hot:false, state:'todo'},
+    {id:'t4', title:'报告 v2 五项待核收口', proj:'韩国制裁法规检索', due:'', dueLabel:'无期限', hot:false, state:'todo'},
+    {id:'t3', title:'AMP 资质要求评估', proj:'英国二手收藏品 AML', due:'', dueLabel:'等治理侧结论', hot:false, state:'block'}
+  ];
+
+  var DONE = [
+    {id:'d1', title:'报告 v2 修订完成', sub:'8 类法律抓手 · 13 条遗漏项 · 3 处修正', date:'11-02'},
+    {id:'d2', title:'报告 v1 初版完成', sub:'伊朗纺织品 + 朝鲜连结点', date:'11-02'},
+    {id:'d3', title:'Quartz 站点发布上线', sub:'GitHub Pages 已生效', date:'11-02'},
+    {id:'d4', title:'PARA 骨架与首页 Dashboard', sub:'6 个分区 + Dataview 首页', date:'11-01'},
+    {id:'d5', title:'每周复盘模板', sub:'5-System / Templater 变量', date:'11-01'}
+  ];
+
+  function load(){
+    try{
+      var raw = localStorage.getItem(KEY);
+      if(raw) return JSON.parse(raw);
+    }catch(e){}
+    return {};
+  }
+  function save(s){
+    try{ localStorage.setItem(KEY, JSON.stringify(s)); }catch(e){}
+  }
+
+  var stateStore = load();
+
+  function isDone(t){
+    if(stateStore[t.id] === true) return true;
+    if(stateStore[t.id] === false) return false;
+    return false;
+  }
+
+  function esc(s){
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  var CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"></path></svg>';
+
+  function taskHTML(t){
+    var pills = '';
+    if(t.dueLabel){
+      var cls = t.hot ? 'hot' : (t.state === 'block' ? 'wait' : '');
+      pills += '<span class="pill ' + cls + '">' + esc(t.dueLabel) + '</span>';
+    }
+    if(t.proj) pills += '<span style="color:var(--ink-3)">' + esc(t.proj) + '</span>';
+    return '<div class="task" data-id="' + t.id + '">' +
+      '<div class="ck" role="checkbox" tabindex="0" aria-checked="false">' + CHECK + '</div>' +
+      '<div style="flex:1;min-width:0">' +
+        '<div class="t-title">' + esc(t.title) + '</div>' +
+        '<div class="t-sub">' + pills + '</div>' +
+      '</div></div>';
+  }
+
+  function doneHTML(d, undo){
+    var attr = (undo && d.id) ? ' data-id="' + d.id + '"' : '';
+    var tip = (undo && d.id) ? ' title="点击可撤销"' : '';
+    return '<div class="task done"' + attr + tip + '><div class="ck">' + CHECK + '</div>' +
+      '<div style="flex:1;min-width:0"><div class="t-title">' + esc(d.title) + '</div>' +
+      '<div class="t-sub"><span style="color:var(--ink-3)">' + esc(d.sub) + '</span>' +
+      '<span class="pill ok mono">' + esc(d.date) + '</span></div></div></div>';
+  }
+
+  function render(){
+    var todoArr = [], blockArr = [];
+    TASKS.forEach(function(t){
+      if(isDone(t)) return;
+      if(t.state === 'block') blockArr.push(t); else todoArr.push(t);
+    });
+
+    var doneExtra = TASKS.filter(function(t){ return isDone(t); }).map(function(t){
+      return {title:t.title, sub:'刚刚勾选完成 · ' + (t.proj || ''), date:'已完成'};
+    });
+
+    var todoList = document.getElementById('listTodo');
+    var blockList = document.getElementById('listBlock');
+    var doneList = document.getElementById('listDone');
+
+    todoList.innerHTML = todoArr.length
+      ? todoArr.map(taskHTML).join('')
+      : '<div style="padding:22px 14px;font-size:12.5px;color:var(--ink-3);text-align:center;">待办已清空</div>';
+    blockList.innerHTML = blockArr.length
+      ? blockArr.map(taskHTML).join('')
+      : '<div style="padding:22px 14px;font-size:12.5px;color:var(--ink-3);text-align:center;">没有受阻项</div>';
+    doneList.innerHTML = doneExtra.map(function(d){ return doneHTML(d, true); }).join('') +
+      DONE.map(function(d){ return doneHTML(d, false); }).join('');
+
+    document.getElementById('cTodo').textContent = todoArr.length;
+    document.getElementById('cBlock').textContent = blockArr.length;
+    document.getElementById('cDone').textContent = doneExtra.length + DONE.length;
+
+    var open = todoArr.length + blockArr.length;
+    var doneCount = doneExtra.length + DONE.length;
+    document.getElementById('mOpen').innerHTML = open + '<small>项</small>';
+    document.getElementById('mDone').innerHTML = doneCount + '<small>项</small>';
+    var total = open + doneCount;
+    var rate = total === 0 ? 0 : Math.round(doneCount / total * 1000) / 10;
+    document.getElementById('mRate').innerHTML = rate + '<small>%</small>';
+  }
+
+  document.addEventListener('click', function(e){
+    var el = e.target;
+    var ck = el && el.closest ? el.closest('.ck') : null;
+    if(!ck) return;
+    var row = ck.closest('.task');
+    if(!row || !row.dataset.id) return;
+    var id = row.dataset.id;
+    stateStore[id] = !(stateStore[id] === true);
+    save(stateStore);
+    row.classList.toggle('done');
+    ck.setAttribute('aria-checked', row.classList.contains('done') ? 'true' : 'false');
+    setTimeout(render, 260);
+  });
+
+  document.addEventListener('keydown', function(e){
+    if(e.key !== 'Enter' && e.key !== ' ') return;
+    var ck = document.activeElement;
+    if(ck && ck.classList && ck.classList.contains('ck')){ e.preventDefault(); ck.click(); }
+  });
+
+  render();
+
+  setTimeout(function(){
+    var bar = document.getElementById('projBar');
+    if(bar) bar.style.width = '60%';
+  }, 500);
+
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(en.isIntersecting){
+          en.target.style.opacity = '1';
+          en.target.style.transform = 'none';
+          io.unobserve(en.target);
+        }
+      });
+    }, {threshold: 0.1});
+    var els = document.querySelectorAll('.col, .proj, .verify, .kcell');
+    for(var i=0;i<els.length;i++){
+      var el = els[i];
+      el.style.transition = 'opacity .6s ease, transform .6s cubic-bezier(.2,.7,.25,1)';
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(12px)';
+      io.observe(el);
+    }
+  }
+
+  function fix(){
+    var kb = document.querySelector('.kb-two');
+    if(kb) kb.style.gridTemplateColumns = window.innerWidth < 900 ? '1fr' : '1.15fr .85fr';
+    var pf = document.querySelector('.proj-facts');
+    if(pf) pf.style.gridTemplateColumns = window.innerWidth < 700 ? '1fr' : 'repeat(3,1fr)';
+  }
+  window.addEventListener('resize', fix);
+  fix();
+})();
+</script>
+</body>
+</html>
