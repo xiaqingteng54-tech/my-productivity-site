@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LogosCowork 功能探索报告（一）· 与外部 AI 大模型的优劣对比</title>
+<style>
+  :root{
+    --orange:#FB7701;
+    --orange-soft:#FFF3E8;
+    --ink:#16181D;
+    --ink-2:#3C4048;
+    --muted:#767C88;
+    --line:#E8EAEF;
+    --paper:#FFFFFF;
+    --bg:#F4F5F8;
+    --green:#1F9E6E;
+    --green-soft:#EAF7F1;
+    --gray-soft:#F2F3F6;
+    --radius:18px;
+    --shadow:0 1px 2px rgba(16,24,40,.04), 0 12px 32px -12px rgba(16,24,40,.14);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{-webkit-font-smoothing:antialiased;}
+  body{
+    font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    background:
+      radial-gradient(900px 500px at 12% -8%, rgba(251,119,1,.10), transparent 60%),
+      radial-gradient(800px 500px at 100% 8%, rgba(60,64,72,.07), transparent 55%),
+      var(--bg);
+    color:var(--ink);
+    line-height:1.75;
+    padding:40px 20px 72px;
+  }
+  .page{
+    max-width:1060px;margin:0 auto;background:var(--paper);
+    border-radius:26px;box-shadow:var(--shadow);overflow:hidden;
+    border:1px solid rgba(255,255,255,.8);
+  }
+
+  /* ---------- Header ---------- */
+  header{
+    position:relative;
+    background:
+      radial-gradient(700px 340px at 88% 0%, rgba(251,119,1,.30), transparent 62%),
+      linear-gradient(135deg,#171A20 0%,#23262E 52%,#1A1D23 100%);
+    color:#fff;padding:52px 56px 44px;overflow:hidden;
+  }
+  header::after{
+    content:"";position:absolute;right:-90px;bottom:-140px;width:360px;height:360px;
+    border:1px solid rgba(255,255,255,.10);border-radius:50%;
+  }
+  header::before{
+    content:"";position:absolute;right:-20px;bottom:-100px;width:230px;height:230px;
+    border:1px solid rgba(255,255,255,.07);border-radius:50%;
+  }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:9px;font-size:12.5px;letter-spacing:.16em;
+    text-transform:uppercase;color:#FFB27A;font-weight:600;margin-bottom:18px;
+  }
+  .eyebrow .dot{width:7px;height:7px;background:var(--orange);border-radius:50%;box-shadow:0 0 0 4px rgba(251,119,1,.22);}
+  h1{font-size:34px;line-height:1.32;font-weight:700;letter-spacing:-.4px;position:relative;z-index:1;}
+  h1 .accent{color:var(--orange);}
+  .subtitle{margin-top:14px;font-size:15px;color:#B9BFCA;max-width:640px;position:relative;z-index:1;}
+  .meta{
+    display:flex;flex-wrap:wrap;gap:0;margin-top:30px;border-top:1px solid rgba(255,255,255,.12);
+    padding-top:22px;position:relative;z-index:1;
+  }
+  .meta-item{padding-right:38px;margin-right:38px;border-right:1px solid rgba(255,255,255,.12);}
+  .meta-item:last-child{border-right:none;margin-right:0;padding-right:0;}
+  .meta-label{font-size:11.5px;letter-spacing:.1em;color:#8C93A0;text-transform:uppercase;}
+  .meta-value{font-size:15px;color:#F2F4F8;font-weight:600;margin-top:3px;}
+
+  /* ---------- Body ---------- */
+  main{padding:8px 56px 56px;}
+  section{padding-top:44px;}
+  .sec-head{display:flex;align-items:flex-start;gap:16px;margin-bottom:8px;}
+  .sec-no{
+    flex:none;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;
+    background:var(--orange-soft);color:var(--orange);font-weight:700;font-size:15px;
+    border:1px solid rgba(251,119,1,.18);
+  }
+  h2{font-size:23px;font-weight:700;letter-spacing:-.2px;line-height:1.4;}
+  .sec-desc{color:var(--muted);font-size:14px;margin-left:54px;margin-bottom:26px;}
+
+  /* ---------- Lead / 核心结论 ---------- */
+  .verdict{
+    position:relative;background:linear-gradient(180deg,#FFFBF7 0%,#FFFFFF 100%);
+    border:1px solid #FBE0CA;border-left:4px solid var(--orange);
+    border-radius:14px;padding:26px 30px;
+  }
+  .verdict .tag{
+    display:inline-block;font-size:11.5px;font-weight:700;letter-spacing:.12em;color:var(--orange);
+    background:#fff;border:1px solid #FBD9BE;border-radius:999px;padding:3px 12px;margin-bottom:14px;
+  }
+  .verdict p{font-size:16.5px;color:var(--ink-2);line-height:1.85;}
+  .verdict strong{color:var(--ink);font-weight:700;}
+  .verdict .hl{background:linear-gradient(180deg,transparent 62%,rgba(251,119,1,.22) 62%);padding:0 2px;}
+
+  /* ---------- 优势卡片 ---------- */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:26px;}
+  .card{
+    border:1px solid var(--line);border-radius:var(--radius);padding:24px 22px 22px;
+    background:#fff;transition:.25s ease;position:relative;overflow:hidden;
+  }
+  .card:hover{transform:translateY(-3px);border-color:#FBD9BE;box-shadow:0 14px 30px -16px rgba(251,119,1,.35);}
+  .card .icon{
+    width:40px;height:40px;border-radius:11px;display:grid;place-items:center;
+    background:var(--orange-soft);margin-bottom:16px;
+  }
+  .card .icon svg{width:20px;height:20px;stroke:var(--orange);fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;}
+  .card h3{font-size:15.5px;font-weight:700;margin-bottom:9px;letter-spacing:-.1px;}
+  .card p{font-size:13.5px;color:#5B616D;line-height:1.8;}
+  .card .idx{
+    position:absolute;top:18px;right:20px;font-size:34px;font-weight:800;color:#F4F5F8;line-height:1;
+    letter-spacing:-2px;
+  }
+
+  /* ---------- 实测案例 ---------- */
+  .case{
+    margin-top:26px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:#fff;
+  }
+  .case-top{
+    padding:20px 26px;background:linear-gradient(90deg,#FAFBFC,#FFFFFF);
+    border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  }
+  .case-top .k{
+    font-size:11.5px;font-weight:700;letter-spacing:.1em;color:#fff;background:var(--ink);
+    border-radius:6px;padding:3px 9px;
+  }
+  .case-top .prompt{font-size:13.5px;color:var(--ink-2);}
+  .case-top .prompt code{
+    background:#F4F5F8;border:1px solid var(--line);border-radius:6px;padding:2px 8px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;color:#2B2F36;
+  }
+  .case-grid{display:grid;grid-template-columns:1fr 1fr;}
+  .case-col{padding:24px 26px 26px;}
+  .case-col + .case-col{border-left:1px solid var(--line);background:#FCFCFD;}
+  .case-title{display:flex;align-items:center;gap:9px;font-size:14.5px;font-weight:700;margin-bottom:16px;}
+  .badge{
+    font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px;letter-spacing:.04em;
+  }
+  .badge.win{background:var(--green-soft);color:var(--green);border:1px solid #CFEBDF;}
+  .badge.base{background:var(--gray-soft);color:#828894;border:1px solid #E4E6EB;}
+  .case-col ul{list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .case-col li{position:relative;padding-left:24px;font-size:13.5px;color:#4A505B;line-height:1.75;}
+  .case-col li::before{
+    content:"✓";position:absolute;left:0;top:1px;color:var(--green);font-weight:700;font-size:13px;
+  }
+  .case-col.miss li::before{content:"—";color:#A9AFBA;}
+
+  /* ---------- 对比表 ---------- */
+  .table-wrap{margin-top:26px;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  thead th{
+    background:#F7F8FA;text-align:left;padding:15px 20px;font-weight:700;font-size:12.5px;
+    letter-spacing:.06em;color:#5B616D;border-bottom:1px solid var(--line);
+  }
+  thead th:nth-child(2){color:var(--orange);}
+  tbody td{padding:16px 20px;border-bottom:1px solid #F1F3F6;vertical-align:top;color:#4A505B;line-height:1.7;}
+  tbody tr:last-child td{border-bottom:none;}
+  tbody tr:hover{background:#FFFDFA;}
+  td.dim{font-weight:600;color:var(--ink);white-space:nowrap;}
+  td.win{background:rgba(251,119,1,.035);}
+  .mini{display:inline-block;font-size:11px;font-weight:700;padding:1px 8px;border-radius:5px;margin-left:6px;vertical-align:1px;}
+  .mini.a{background:var(--orange-soft);color:var(--orange);}
+  .mini.b{background:var(--gray-soft);color:#828894;}
+
+  /* ---------- 分流图 ---------- */
+  .route{margin-top:26px;padding:34px 26px 30px;border:1px solid var(--line);border-radius:var(--radius);
+    background:
+      radial-gradient(circle at 1px 1px, #E7E9EE 1px, transparent 0) 0 0/22px 22px,
+      linear-gradient(180deg,#FCFCFD,#FFFFFF);
+  }
+  .route-node{
+    max-width:280px;margin:0 auto;text-align:center;background:var(--ink);color:#fff;
+    border-radius:13px;padding:14px 18px;font-size:14.5px;font-weight:700;
+    box-shadow:0 10px 24px -14px rgba(22,24,29,.6);
+  }
+  .route-node small{display:block;font-weight:400;font-size:11.5px;color:#9AA1AD;letter-spacing:.08em;margin-top:3px;}
+  .connector{width:1px;height:26px;background:linear-gradient(#D6D9E0,#C9CDD6);margin:0 auto;}
+  .branch{display:grid;grid-template-columns:1fr 1fr;gap:22px;position:relative;margin-top:0;}
+  .branch::before{
+    content:"";position:absolute;top:-18px;left:25%;right:25%;height:1px;background:#D6D9E0;
+  }
+  .branch .arm{position:relative;padding-top:18px;}
+  .branch .arm::before{content:"";position:absolute;top:0;left:50%;width:1px;height:18px;background:#D6D9E0;}
+  .leaf{
+    border-radius:14px;padding:20px 22px;border:1px solid var(--line);background:#fff;
+    box-shadow:0 6px 18px -14px rgba(16,24,40,.5);
+  }
+  .leaf.primary{border-color:#FBD9BE;background:linear-gradient(180deg,#FFFBF7,#fff);}
+  .leaf .who{display:flex;align-items:center;gap:8px;font-size:14.5px;font-weight:700;margin-bottom:10px;}
+  .leaf.primary .who{color:var(--orange);}
+  .leaf .who .pip{width:9px;height:9px;border-radius:50%;background:var(--orange);}
+  .leaf.sec .who .pip{background:#8E95A2;}
+  .leaf ul{list-style:none;display:flex;flex-direction:column;gap:7px;}
+  .leaf li{font-size:13px;color:#5B616D;padding-left:15px;position:relative;line-height:1.7;}
+  .leaf li::before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:50%;background:#CFD3DA;}
+
+  /* ---------- 结论条 ---------- */
+  .takeaway{
+    margin-top:34px;border-radius:16px;padding:26px 30px;color:#fff;
+    background:linear-gradient(115deg,#1B1E24 0%,#2B2F38 58%,#3A2C22 100%);
+    display:flex;gap:22px;align-items:flex-start;
+  }
+  .takeaway .mark{font-size:26px;line-height:1;color:var(--orange);flex:none;}
+  .takeaway h4{font-size:15px;font-weight:700;letter-spacing:.02em;margin-bottom:8px;}
+  .takeaway p{font-size:13.5px;color:#C3C8D2;line-height:1.85;}
+  .takeaway p b{color:#fff;font-weight:600;}
+
+  footer{
+    padding:26px 56px 34px;border-top:1px solid var(--line);background:#FAFBFC;
+    display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;
+    font-size:12px;color:#9AA1AD;
+  }
+  footer .series{font-weight:600;color:#6C7280;}
+
+  @media (max-width:860px){
+    body{padding:16px 10px 40px;}
+    header{padding:36px 24px 30px;}
+    h1{font-size:25px;}
+    main{padding:0 24px 36px;}
+    .sec-desc{margin-left:0;}
+    .cards{grid-template-columns:1fr;}
+    .case-grid{grid-template-columns:1fr;}
+    .case-col + .case-col{border-left:none;border-top:1px solid var(--line);}
+    .branch{grid-template-columns:1fr;}
+    .branch::before{display:none;}
+    .meta-item{padding-right:22px;margin-right:22px;}
+    footer{padding:22px 24px;}
+    .table-wrap{overflow-x:auto;}
+    table{min-width:560px;}
+  }
+  @media print{
+    body{background:#fff;padding:0;}
+    .page{box-shadow:none;border:none;border-radius:0;}
+    .card:hover{transform:none;box-shadow:none;}
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="eyebrow"><span class="dot"></span>LogosCowork 功能探索 · 第一课</div>
+    <h1>与外部 AI 大模型的<span class="accent">优劣对比</span></h1>
+    <p class="subtitle">以「检索平台与消费者用户协议」为实测场景，比较 LogosCowork 与外部通用大模型在领域知识、角色理解与成果交付三个维度的差异，并给出分工使用建议。</p>
+    <div class="meta">
+      <div class="meta-item">
+        <div class="meta-label">汇报人</div>
+        <div class="meta-value">法务部 · 法务</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">报告时间</div>
+        <div class="meta-value">2026 年 11 月 13 日</div>
+      </div>
+      <div class="meta-item">
+        <div class="meta-label">报告性质</div>
+        <div class="meta-value">工具探索 · 单项结论</div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- 一 -->
+    <section>
+      <div class="sec-head">
+        <div class="sec-no">一</div>
+        <h2>核心结论</h2>
+      </div>
+      <p class="sec-desc">先给判断，再给依据。</p>
+
+      <div class="verdict">
+        <span class="tag">ONE-LINE VERDICT</span>
+        <p>
+          LogosCowork 的核心优势是<span class="hl">对 Temu 的深度理解</span>——它更了解 Temu 的业务与信息分布，也更了解 Temu 法务的角色与工作产出要求；
+          外部大模型的优势则是<span class="hl">响应速度与公开知识的广度</span>。
+          因此两者的关系不是替代，而是<strong>按信息边界分工</strong>：<strong>内部信息交 LogosCowork，公开信息交外部大模型。</strong>
+        </p>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <span class="idx">01</span>
+          <div class="icon">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.7-3.7"/></svg>
+          </div>
+          <h3>更懂 Temu，检索更准</h3>
+          <p>面对同一提示词，LogosCowork 能精准定位 Temu 平台内部信息，并主动预判我可能存在的延伸需求；外部模型只能覆盖其在公开网络上"看得见"的部分。</p>
+        </div>
+        <div class="card">
+          <span class="idx">02</span>
+          <div class="icon">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 9.5h18M8.5 9.5V20M13 13.5h4.5M13 16.5h3"/></svg>
+          </div>
+          <h3>更懂法务，产出更成型</h3>
+          <p>不止"找到文件"，还会同步梳理合同主体与协议结构，帮助我快速掌握内容、定位目标条款，而不是留给我一堆原文。</p>
+        </div>
+        <div class="card">
+          <span class="idx">03</span>
+          <div class="icon">
+            <svg viewBox="0 0 24 24"><path d="M12 3.5l8 4.2v8.6l-8 4.2-8-4.2V7.7z"/><path d="M12 12.2l8-4.3M12 12.2v8.6M12 12.2L4 7.9"/></svg>
+          </div>
+          <h3>更适合交付成果</h3>
+          <p>LogosCowork 更接近"可用的工作交付物"，外部大模型更接近"快速问答"。前者省去二次加工，后者胜在即时。</p>
+        </div>
+      </div>
+
+      <!-- 实测案例 -->
+      <div class="case">
+        <div class="case-top">
+          <span class="k">实测案例</span>
+          <span class="prompt">同一提示词 · <code>检索平台与消费者之间的用户协议</code></span>
+        </div>
+        <div class="case-grid">
+          <div class="case-col">
+            <div class="case-title">LogosCowork <span class="badge win">命中 + 预判</span></div>
+            <ul>
+              <li>准确找到该协议在<b>美国站点</b>与<b>日本站点</b>的版本。</li>
+              <li>预判我可能还需查阅<b>其他站点</b>的协议，并主动告知可通过<b>替换域名</b>定位目标站点的版本。</li>
+              <li>同步梳理<b>合同主体</b>与协议的<b>整体结构</b>，便于快速定位目标条款。</li>
+            </ul>
+          </div>
+          <div class="case-col miss">
+            <div class="case-title">外部大模型（Gemini） <span class="badge base">仅单点命中</span></div>
+            <ul>
+              <li>仅返回<b>单个站点</b>的协议，未覆盖多站点版本。</li>
+              <li>未回应"查看其他站点协议"这一潜在需求，也未提供检索路径。</li>
+              <li>未对协议主体与结构作体系化梳理，需自行通读定位。</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- 对比表 -->
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:20%">对比维度</th>
+              <th style="width:40%">LogosCowork</th>
+              <th style="width:40%">外部大模型（Gemini 等）</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="dim">领域知识</td>
+              <td class="win">深度理解 Temu 业务与信息体系，检索内部/平台信息更准确 <span class="mini a">强</span></td>
+              <td>依赖公开网络，覆盖内网与内部资料的能力有限 <span class="mini b">有限</span></td>
+            </tr>
+            <tr>
+              <td class="dim">需求预判</td>
+              <td class="win">能识别提示词背后的延伸意图（如"其他站点版本"）并给出检索路径 <span class="mini a">强</span></td>
+              <td>多按字面执行，较少主动补全潜在需求 <span class="mini b">一般</span></td>
+            </tr>
+            <tr>
+              <td class="dim">角色理解</td>
+              <td class="win">理解法务视角，自动梳理合同主体与协议结构 <span class="mini a">强</span></td>
+              <td>停留在信息罗列，结构化处理需另行要求 <span class="mini b">一般</span></td>
+            </tr>
+            <tr>
+              <td class="dim">交付形态</td>
+              <td class="win">直接产出可用成果，减少二次加工 <span class="mini a">交付型</span></td>
+              <td>更适合即时问答与思路启发 <span class="mini b">问答型</span></td>
+            </tr>
+            <tr>
+              <td class="dim">响应速度</td>
+              <td>链路较长，适合需要准确与完整的事项</td>
+              <td class="win">响应更快，适合轻量、即时的公开信息查询 <span class="mini b">快</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 使用分流 -->
+      <div class="sec-head" style="margin-top:44px;">
+        <div class="sec-no" style="background:#F2F3F6;color:#5B616D;border-color:#E4E6EB;">→</div>
+        <h2>使用建议：按信息边界分工</h2>
+      </div>
+      <p class="sec-desc">一句话原则：<b>内部信息交 LogosCowork，公开信息交外部大模型。</b></p>
+
+      <div class="route">
+        <div class="route-node">我的需求是什么？<small>ROUTING BY INFORMATION BOUNDARY</small></div>
+        <div class="connector"></div>
+        <div class="branch">
+          <div class="arm">
+            <div class="leaf primary">
+              <div class="who"><span class="pip"></span>优先使用 LogosCowork</div>
+              <ul>
+                <li>了解平台规则、平台政策与产品机制</li>
+                <li>检索内部资料、内部制度与历史文档</li>
+                <li>需要可直接交付的成品（梳理、汇总、成稿）</li>
+                <li>需要跨站点、跨版本的完整覆盖</li>
+              </ul>
+            </div>
+          </div>
+          <div class="arm">
+            <div class="leaf sec">
+              <div class="who"><span class="pip"></span>优先使用外部大模型</div>
+              <ul>
+                <li>查询网络公开信息与行业动态</li>
+                <li>检索海外法律法规、监管要求与案例</li>
+                <li>快速问答、思路启发与初稿构思</li>
+                <li>对时效与响应速度要求高的事项</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="takeaway">
+        <div class="mark">”</div>
+        <div>
+          <h4>总结</h4>
+          <p>
+            LogosCowork 的价值不在于"另一个更聪明的模型"，而在于它<b>站在 Temu 内部、站在法务岗位上</b>工作：知道信息在哪里、知道我真正要什么、也知道成果应该长什么样。
+            外部大模型则是<b>面向公开世界的快速通道</b>。把两类工具放在各自擅长的信息边界内使用，才是我这次探索最实际的收获。
+          </p>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer>
+    <span class="series">LogosCowork 功能探索系列 · 其一</span>
+    <span>汇报人：法务部 · 法务　|　2026-11-13</span>
+  </footer>
+
+</div>
+</body>
+</html>
